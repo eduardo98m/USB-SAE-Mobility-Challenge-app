@@ -3,8 +3,8 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from get_dataframes import get_crash_data_df
 
-df = px.data.tips()
 
 st.set_page_config(
      page_title='USB-SAE Mobility Team',
@@ -18,6 +18,15 @@ st.set_page_config(
      }
  )
 
+px.set_mapbox_access_token(st.secrets["map_box_key"])
+
+
+# Reading the datasets files
+
+df = get_crash_data_df()
+
+
+
 
 # App layout #
 st.title('USB-SAE Mobility Team')
@@ -29,21 +38,24 @@ st.text("[Párrafo introductorio]")
 
 
 
-
 with st.expander("🚦 The intersection problem"):
-    st.plotly_chart(px.pie(df, values='tip', names='day'), use_container_width=True)
+    plot_data = pd.DataFrame(df['INTERSECTION'].value_counts())
+    print(plot_data)
+    st.plotly_chart(px.bar(plot_data), use_container_width=True)
     st.write("""
     [Párrafo Explicando la data]
     """)
 
 with st.expander("🚗🛵🥡 Delivery data insights"):
-    st.plotly_chart(px.pie(df, values='tip', names='day'), use_container_width=True)
+   
+    #st.plotly_chart(px.pie(df, values='tip', names='day'), use_container_width=True)
     st.write("""
     [Párrafo Explicando la data]
     """)
 
 with st.expander("📈 Economics"):
-    st.plotly_chart(px.pie(df, values='tip', names='day'), use_container_width=True)
+    plot_data = pd.DataFrame(df['CRASH_YEAR'].value_counts())
+    st.plotly_chart(px.pie(plot_data), use_container_width=True)
     st.write("""
     [Párrafo Explicando la data]
     """)
