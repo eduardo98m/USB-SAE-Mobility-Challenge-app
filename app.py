@@ -14,6 +14,7 @@ def get_graph(df, group, x_name, y_name, title, only_bikes=False, x_map=None, sw
     X = []
     Y = []
     for s, d in df_groups:
+        
         if x_map:
             if s in x_map:
                 X.append(x_map[s])
@@ -33,16 +34,19 @@ def get_graph(df, group, x_name, y_name, title, only_bikes=False, x_map=None, sw
     sns.set_style({'font.family':'sans serif', 'font.serif':'Arial'}) 
     sns.set_context("poster", font_scale=0.65, rc={"grid.linewidth": 3, 'lines.linewidth': 5})
 
+    fig, ax = plt.subplots()
+    
     if not swap:
-        return sns_f(data=plot_df, x=x_name,  y=y_name, color='#00059E').set_title(
+        ax =  sns_f(data=plot_df, x=x_name,  y=y_name, color='#00059E').set_title(
         title,
         fontdict = {'fontsize': 20}
         )
     else:
-        return sns_f(data=plot_df, x=y_name,  y=x_name, color='#00059E').set_title(
+        ax = sns_f(data=plot_df, x=y_name,  y=x_name, color='#00059E').set_title(
         title,
         fontdict = {'fontsize': 20}
         )
+    return fig
 
 st.set_page_config(
      page_title='USB-SAE Mobility Team',
@@ -90,6 +94,20 @@ with st.expander("🚗🛵🥡 Initial data analisys and insights"):
     # Ageupados por nivel de luz 
     # Agrupados porroad condition
 
+     # Accidents vs Speed Limit
+    graph = get_graph(
+        df, 
+        'SPEED_LIMIT', 
+        'Speed Limit (milles per hour)', 
+        'Accidents', 
+        'Total accidents per speed limit',
+        only_bikes=False,
+        x_map=None,
+        ticks=0,
+        sns_f=sns.lineplot
+    )
+    st.pyplot(graph)
+
     # Accidents vs Year
     graph = get_graph(
         df, 
@@ -102,7 +120,7 @@ with st.expander("🚗🛵🥡 Initial data analisys and insights"):
         ticks=0,
         sns_f=sns.lineplot
     )
-    st.plotly_chart(graph, use_container_width=True)
+    st.pyplot(graph)
 
     # Accidents vs Month
     graph = get_graph(
@@ -119,7 +137,7 @@ with st.expander("🚗🛵🥡 Initial data analisys and insights"):
         ticks=45,
         sns_f=sns.barplot
     )
-    st.plotly_chart(graph, use_container_width=True)
+    st.pyplot(graph)
 
     # Accidents vs Day of Week
     graph = get_graph(
@@ -136,21 +154,9 @@ with st.expander("🚗🛵🥡 Initial data analisys and insights"):
         ticks=45,
         sns_f=sns.barplot
     )
-    st.plotly_chart(graph, use_container_width=True)
+    st.pyplot(graph)
 
-    # Accidents vs Speed Limit
-    graph = get_graph(
-        df, 
-        'SPEED_LIMIT', 
-        'Speed Limit (milles per hour)', 
-        'Accidents', 
-        'Total accidents per speed limit',
-        only_bikes=False,
-        x_map=None,
-        ticks=0,
-        sns_f=sns.lineplot
-    )
-    st.plotly_chart(graph, use_container_width=True)
+   
 
     # Accidents vs Light Condition
     graph = get_graph(
@@ -174,7 +180,7 @@ with st.expander("🚗🛵🥡 Initial data analisys and insights"):
         ticks=0,
         sns_f=sns.barplot
     )
-    st.plotly_chart(graph, use_container_width=True)
+    st.pyplot(graph)
 
     # Accidents vs Road Condition
     graph = get_graph(
@@ -199,7 +205,7 @@ with st.expander("🚗🛵🥡 Initial data analisys and insights"):
         ticks=0,
         sns_f=sns.barplot
     )
-    st.plotly_chart(graph, use_container_width=True)
+    st.pyplot(graph)
 
     st.write("""
     [Párrafo Explicando la data]
