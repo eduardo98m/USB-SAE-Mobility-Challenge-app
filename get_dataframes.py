@@ -1,6 +1,8 @@
 
 import pandas as pd
+import streamlit as st
 
+@st.cache()
 def get_crash_data_df():
 
     try:
@@ -360,4 +362,25 @@ def get_crash_data_df():
         return df
 
 
+
+@st.cache()
+def get_gridwise_data_df():
+    try:
+
+        df = pd.read_csv("datasets/gridwise_df.csv")
+
+    except FileNotFoundError: 
+
     
+        url  ='https://drive.google.com/file/d/19d-nOUl798BPI9bt9VjJUrUiklmq1BAN/view?usp=sharing'
+        path ='https://drive.google.com/uc?id=' + url.split('/')[-2]
+
+        df = pd.read_csv(path)
+
+        df.to_csv("datasets/gridwise_df.csv")
+
+    finally:
+
+        return df
+
+

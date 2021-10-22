@@ -3,7 +3,7 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from get_dataframes import get_crash_data_df
+from get_dataframes import get_crash_data_df, get_gridwise_data_df
 
 
 st.set_page_config(
@@ -25,7 +25,7 @@ px.set_mapbox_access_token(st.secrets["map_box_key"])
 
 df = get_crash_data_df()
 
-
+df_gw = get_gridwise_data_df()
 
 
 # App layout #
@@ -52,6 +52,8 @@ with st.expander("🚗🛵🥡 Delivery data insights"):
     st.write("""
     [Párrafo Explicando la data]
     """)
+
+    
 
 with st.expander("📈 Economics"):
     plot_data = pd.DataFrame(df['CRASH_YEAR'].value_counts())
