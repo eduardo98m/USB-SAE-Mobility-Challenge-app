@@ -3,9 +3,10 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+
 import seaborn as sns
 from matplotlib import rcParams
-from get_dataframes import get_crash_data_df, get_gridwise_data_df
+from get_dataframes import get_crash_data_df, get_gridwise_data_df, get_intersections_clust_data_df, get_bikes_clust_data_df
 
 def get_graph(df, group, x_name, y_name, title, only_bikes=False, x_map=None, swap=False, ticks=0, sns_f=sns.barplot):
     if only_bikes: df = df[df['BICYCLE'] == 1]
@@ -63,6 +64,10 @@ df = get_crash_data_df()
 
 df_gw = get_gridwise_data_df()
 
+df_clust_intersections =  get_intersections_clust_data_df()
+
+df_clust_bikes = get_bikes_clust_data_df()
+
 #
 year_list = list(df['CRASH_YEAR'].unique())
 # 
@@ -75,7 +80,7 @@ st.text("[Párrafo introductorio]")
 
 
 
-with st.expander("🚗🛵🥡 Iniaila data analisys and insights"):
+with st.expander("🚗🛵🥡 Initial data analisys and insights"):
     # @amin
     # La idea de esta parte es colcoar todas las gráficas de los insgishts que no tengan 
     # que ver mucho con las bicicletas o las intersecciones
@@ -223,8 +228,16 @@ with st.expander("🚦 The intersection problem"):
     [Párrafo Explicando la data]
     """)
 
+    st.subheader("Intersection Crashes clusterized")
 
-    st.subheader("🚲💥 Bike crashes")
+    st.plotly_chart(px.scatter_mapbox(df_clust_intersections, 
+                            lat="DEC_LAT", 
+                            lon="DEC_LONG",  
+                            color='CLUSTER_COUNT', #size='CRASH_YEAR', text = 'CLUSTER_COUNT',
+                            size_max=3, zoom=10))
+
+
+    st.header("🚲💥 Bike crashes")
     st.write("""
     The map below show the number of bike accidents by year, there it is possible to 
     observe that a majority of the crashes occur near intersections.
@@ -254,6 +267,15 @@ with st.expander("🚦 The intersection problem"):
     st.write("""
     [Párrafo Explicando la data]
     """)            
+    st.subheader("Bike Crashes clusterized")
+    st.plotly_chart(px.scatter_mapbox(df_clust_bikes, 
+                    lat="DEC_LAT", lon="DEC_LONG",  
+                    color='Accidents per cluster',
+                    title = "Clusterized Data Bycicle accidents",
+                    opacity=0.55, 
+                    #color_continuous_scale= px.colors.sequential.turbo,
+                    size='CRASH_YEAR',# text = 'CLUSTER_COUNT',
+                    size_max=8, zoom=10))
     
     st.write("""
     A proven meassure to reduce these kind of accidents are protected intersections,

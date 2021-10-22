@@ -384,3 +384,45 @@ def get_gridwise_data_df():
         return df
 
 
+@st.cache()
+def get_intersections_clust_data_df():
+    try:
+
+        df = pd.read_csv("datasets/intersections_cluster_df.csv")
+
+    except FileNotFoundError: 
+
+    
+        url  ='https://drive.google.com/file/d/1c42lpKgqX8ofAwcm2Zh5yy0lGu43rqrH/view?usp=sharing'
+        path ='https://drive.google.com/uc?id=' + url.split('/')[-2]
+
+        df = pd.read_csv(path)
+
+        df.to_csv("datasets/intersections_cluster_df.csv")
+
+    finally:
+
+        return df
+
+@st.cache()
+def get_bikes_clust_data_df():
+    try:
+
+        df = pd.read_csv("datasets/bikes_cluster_df.csv")
+
+    except FileNotFoundError: 
+
+    
+        url  ='https://drive.google.com/file/d/1-0xCBSypYJvb_fNcbAjvg2bT_A8DA-yZ/view?usp=sharing'
+        path ='https://drive.google.com/uc?id=' + url.split('/')[-2]
+
+        df = pd.read_csv(path)
+
+        df.to_csv("datasets/bikes_cluster_df.csv")
+
+    finally:
+
+        return df
+
+
+
