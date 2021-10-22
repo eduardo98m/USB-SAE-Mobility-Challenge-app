@@ -1,35 +1,98 @@
 import streamlit as st
 import plotly.express as px
 import matplotlib.pyplot as plt
-import numpy as np
+
 import pandas as pd
 
-import seaborn as sns
-from matplotlib import rcParams
+
 from get_dataframes import get_crash_data_df, get_gridwise_data_df, get_intersections_clust_data_df, get_bikes_clust_data_df
 
-def get_graph(df, group, x_name, y_name, title, only_bikes=False, ticks=0, plt_f=plt.bar):
+@st.cache()
+def get_graph(df,
+              group,
+              title = "plot_title",  
+              x_label = "x_label",
+              y_label = "y_label",
+              z_label = "z_label", 
+              color = None,  
+              only_bikes=False, 
+              ticks=0, 
+              plt_f=px.bar,
+              horizontal=False 
+              ):
+    
     if only_bikes: df = df[df['BICYCLE'] == 1]
-    df_groups = df.groupby(group)
-    X = []
-    Y = []
-    for s, d in df_groups:
 
-        X.append(s)
-        Y.append(int(len(d)))
+    labels = {
+        group:x_label,
+        "count":y_label,
+        color:z_label,
+    }
+
+    if not color:
+        df_groups = df.groupby(group)
+        X = []
+        Y = []
+        
+        for s, d in df_groups:
+
+            X.append(s)
+            Y.append(int(len(d)))
+        
+        data_to_plot = pd.DataFrame(
+                                    {group: X,
+                                    'count': Y,
+                                    })
+
+        
+        if horizontal:
+            fig = plt_f(data_to_plot, x="count", y=group, #color='#00059E',
+                title= title,
+                labels = labels,
+                orientation="h")
+        
+        else:
+            fig = plt_f(data_to_plot, x=group, y="count", #color='#00059E',
+                title= title,
+                labels = labels)
+    
+    else:
+        df_groups = df.groupby(group)
+        X = []
+        Y = []
+        Z = []
+        
+        for x_category, data in df_groups:
+
+            df_groups_b = data.groupby(color)
+
+            for z_category, d in df_groups_b:
+            
+                X.append(x_category)
+                Y.append(int(len(d)))
+                Z.append(z_category)
+        
+
+        data_to_plot = pd.DataFrame(
+                                    {group: X,
+                                    'count': Y,
+                                    color:Z}
+                                    )
+        
+        if horizontal:
+            fig = plt_f(data_to_plot, x="count", y=group, color=color,
+                title= title,
+                labels = labels,
+                orientation="h")
+        
+        else:
+            fig = plt_f(data_to_plot, x=group, y="count", color=color,
+                title= title,
+                labels = labels)
 
 
-    rcParams['figure.figsize'] = 10, 8
-    plt.xticks(rotation=ticks)
-    sns.set_style("whitegrid")
-    sns.set_style({'font.family':'sans serif', 'font.serif':'Arial'}) 
-    sns.set_context("poster", font_scale=0.65, rc={"grid.linewidth": 3, 'lines.linewidth': 5})
 
-
-    plt.xlabel(x_name)
-    plt.ylabel(y_name)
-    plt.title(title, fontsize=20)
-    return plt_f(X, Y, color='#00059E')
+    return fig
 
 
 st.set_page_config(
@@ -83,53 +146,46 @@ with st.expander("🚗🛵🥡 Initial data analisys and insights"):
     graph = get_graph(
         df, 
         'SPEED_LIMIT', 
-        'Speed Limit (milles per hour)', 
-        'Accidents', 
-        'Total accidents per speed limit',
-        only_bikes=False,
-        ticks=0,
-        plt_f=plt.plot
+        x_label = 'Speed Limit (milles per hour)', 
+        y_label = 'Accident count', 
+        title = 'Total accidents per speed limit',
     )
-    st.pyplot(graph)
+    st.plotly_chart(graph, use_container_width=True)
 
     # Accidents vs Year
     graph = get_graph(
         df, 
         'CRASH_YEAR', 
-        'Year', 
-        'Accidents', 
-        'Total accidents per year',
+        x_label = 'Year', 
+        y_label = 'Accidents', 
+        title ='Total accidents per year',
+        #color = "CRASH_MONTH",
+        #z_label = "month",
         only_bikes=False,
-        ticks=0,
-        plt_f=plt.plot
     )
-    st.pyplot(graph)
+    st.plotly_chart(graph, use_container_width=True)
 
     # Accidents vs Month
     graph = get_graph(
         df, 
         'CRASH_MONTH', 
-        'Month', 
-        'Accidents', 
-        'Total accidents per month',
+        x_label ='Month', 
+        y_label ='Accidents', 
+        title ='Total accidents per month',
         only_bikes=False,
-        ticks=45,
-        plt_f=plt.bar
     )
-    st.pyplot(graph)
+    st.plotly_chart(graph, use_container_width=True)
 
     # Accidents vs Day of Week
     graph = get_graph(
         df, 
         'DAY_OF_WEEK', 
-        'Day', 
-        'Accidents', 
-        'Total accidents per day of week',
+        x_label ='Day', 
+        y_label ='Accidents', 
+        title = 'Total accidents per day of week',
         only_bikes=False,
-        ticks=45,
-        plt_f=plt.bar
     )
-    st.pyplot(graph)
+    st.plotly_chart(graph, use_container_width=True)
 
 
 
@@ -137,27 +193,23 @@ with st.expander("🚗🛵🥡 Initial data analisys and insights"):
     graph = get_graph(
         df, 
         'ILLUMINATION', 
-        'Illumination Condition', 
-        'Accidents', 
-        'Total accidents per illumination condition',
+        x_label ='Illumination condition', 
+        y_label ='Accidents', 
+        title = 'Total accidents by road illumination',
         only_bikes=False,
-        ticks=0,
-        plt_f=plt.barh
     )
-    st.pyplot(graph)
+    st.plotly_chart(graph, use_container_width=True)
 
     # Accidents vs Road Condition
     graph = get_graph(
         df, 
         'ROAD_CONDITION', 
-        'Road Condition', 
-        'Accidents', 
-        'Total accidents per road condition',
+        x_label ='Road Condition', 
+        y_label ='Accidents', 
+        title = 'Total accidents per road condition',
         only_bikes=False,
-        ticks=0,
-        plt_f=plt.barh
     )
-    st.pyplot(graph)
+    st.plotly_chart(graph, use_container_width=True)
 
     st.write("""
     [Párrafo Explicando la data]
