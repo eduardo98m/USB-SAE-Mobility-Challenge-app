@@ -3,8 +3,45 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import seaborn as sns
+from matplotlib import rcParams
 from get_dataframes import get_crash_data_df, get_gridwise_data_df
 
+def get_graph(df, group, x_name, y_name, title, only_bikes=False, x_map=None, swap=False, ticks=0, sns_f=sns.barplot):
+    if only_bikes: df = df[df['BICYCLE'] == 1]
+    df_groups = df.groupby(group)
+    X = []
+    Y = []
+    for s, d in df_groups:
+        if x_map:
+            if s in x_map:
+                X.append(x_map[s])
+                Y.append(int(len(d)))
+        else:
+            X.append(s)
+            Y.append(int(len(d)))
+
+    plot_df = pd.DataFrame.from_dict({
+        x_name: X,
+        y_name: Y,
+    })
+
+    rcParams['figure.figsize'] = 10, 8
+    plt.xticks(rotation=ticks)
+    sns.set_style("whitegrid")
+    sns.set_style({'font.family':'sans serif', 'font.serif':'Arial'}) 
+    sns.set_context("poster", font_scale=0.65, rc={"grid.linewidth": 3, 'lines.linewidth': 5})
+
+    if not swap:
+        return sns_f(data=plot_df, x=x_name,  y=y_name, color='#00059E').set_title(
+        title,
+        fontdict = {'fontsize': 20}
+        )
+    else:
+        return sns_f(data=plot_df, x=y_name,  y=x_name, color='#00059E').set_title(
+        title,
+        fontdict = {'fontsize': 20}
+        )
 
 st.set_page_config(
      page_title='USB-SAE Mobility Team',
@@ -47,6 +84,118 @@ with st.expander("🚗🛵🥡 Iniaila data analisys and insights"):
     # Agrupados por límites de velocidad
     # Ageupados por nivel de luz 
     # Agrupados porroad condition
+
+    # Accidents vs Year
+    graph = get_graph(
+        df, 
+        'CRASH_YEAR', 
+        'Year', 
+        'Accidents', 
+        'Total accidents per year',
+        only_bikes=False,
+        x_map=None,
+        ticks=0,
+        sns_f=sns.lineplot
+    )
+    st.plotly_chart(graph, use_container_width=True)
+
+    # Accidents vs Month
+    graph = get_graph(
+        df, 
+        'CRASH_MONTH', 
+        'Month', 
+        'Accidents', 
+        'Total accidents per month',
+        only_bikes=False,
+        x_map={
+        1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun',
+        7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec'
+        },
+        ticks=45,
+        sns_f=sns.barplot
+    )
+    st.plotly_chart(graph, use_container_width=True)
+
+    # Accidents vs Day of Week
+    graph = get_graph(
+        df, 
+        'DAY_OF_WEEK', 
+        'Day', 
+        'Accidents', 
+        'Total accidents per day of week',
+        only_bikes=False,
+        x_map={
+            1: 'Sunday', 2: 'Monday', 3: 'Tuesday', 4: 'Wednesday', 
+            5: 'Thursday', 6: 'Friday', 7: 'Saturday',
+        },
+        ticks=45,
+        sns_f=sns.barplot
+    )
+    st.plotly_chart(graph, use_container_width=True)
+
+    # Accidents vs Speed Limit
+    graph = get_graph(
+        df, 
+        'SPEED_LIMIT', 
+        'Speed Limit (milles per hour)', 
+        'Accidents', 
+        'Total accidents per speed limit',
+        only_bikes=False,
+        x_map=None,
+        ticks=0,
+        sns_f=sns.lineplot
+    )
+    st.plotly_chart(graph, use_container_width=True)
+
+    # Accidents vs Light Condition
+    graph = get_graph(
+        df, 
+        'ILLUMINATION', 
+        'Illumination Condition', 
+        'Accidents', 
+        'Total accidents per illumination condition',
+        only_bikes=False,
+        x_map={
+          1: 'Daylight',
+          2: 'Dark - no street lights',
+          3: 'Dark - street lights',
+          4: 'Dusk',
+          5: 'Dawn',
+          6: 'Dark - unknown roadway lighting',
+          8: 'Other',
+          9: 'Unknown (expired)',
+        },
+        swap=True,
+        ticks=0,
+        sns_f=sns.barplot
+    )
+    st.plotly_chart(graph, use_container_width=True)
+
+    # Accidents vs Road Condition
+    graph = get_graph(
+        df, 
+        'ROAD_CONDITION', 
+        'Road Condition', 
+        'Accidents', 
+        'Total accidents per road condition',
+        only_bikes=False,
+        x_map={
+          0: 'Dry',
+          1: 'Wet',
+          2: 'Sand/ mud/ dirt/ oil/ or gravel',
+          3: 'Snow covered',
+          4: 'Slush',
+          5: 'Ice',
+          6: 'Ice Patches',
+          7: 'Water - standing or moving',
+          8: 'Other',
+        },
+        swap=True,
+        ticks=0,
+        sns_f=sns.barplot
+    )
+    st.plotly_chart(graph, use_container_width=True)
+
     st.write("""
     [Párrafo Explicando la data]
     """)
