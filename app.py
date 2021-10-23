@@ -105,7 +105,7 @@ st.set_page_config(
      page_title='USB-SAE Mobility Team',
      page_icon="🚲",
      layout="centered", # Puede cambiarse a "wide"
-     initial_sidebar_state="collapsed",
+    initial_sidebar_state='auto',
      menu_items={
          'Report a bug': "https://github.com/eduardo98m",
          'About': "https://www.sae.org",
@@ -128,37 +128,51 @@ df_clust_bikes = get_bikes_clust_data_df()
 #
 year_list = list(df['CRASH_YEAR'].unique())
 # 
+st.sidebar.subheader("Index")
+page = st.sidebar.radio(
+            "",
+            ('Introduction', 
+            '📝📊 Initial data analisys and insights', 
+            '🚗🛵🥡 Delivery data insights',
+            "🚦 The intersection problem",
+            "💡 Our proposal",
+             "📊 Datasets"
+            ))
 
 # App layout #
 st.title('USB-SAE Mobility Team')
 
-st.image("https://media.istockphoto.com/photos/panoramic-view-of-pittsburgh-and-the-3-rivers-picture-id1093811582?k=20&m=1093811582&s=612x612&w=0&h=-KpOZ2OHlG7g2-A5fAGTCB0GtNCNVhmgZCqbr8hbzNE=")
+if page == "Introduction":
+    st.image("https://media.istockphoto.com/photos/panoramic-view-of-pittsburgh-and-the-3-rivers-picture-id1093811582?k=20&m=1093811582&s=612x612&w=0&h=-KpOZ2OHlG7g2-A5fAGTCB0GtNCNVhmgZCqbr8hbzNE=")
 
-st.markdown("""
-<div style="text-align: justify">
+    st.markdown("""
+    <div style="text-align: justify">
 
-Welcome to the USB-SAE Mobility Team interactive both for the SAE-AI mini challenge.
+    Welcome to the USB-SAE Mobility Team interactive both for the SAE-AI mini challenge.
 
-The objective of our entry was to develop a series of recomendations that would improve mobility accessibility, 
-solving crucial social issues in Allegheny County, Pennsylvania, based mainly on data analisys.
+    The objective of our entry was to develop a series of recomendations that would improve mobility accessibility, 
+    solving crucial social issues in Allegheny County, Pennsylvania, based mainly on data analisys.
 
-With that objective in mind,  and trough the use of data mining tools and extensive research
-we found that a good solution to imporve the mobility of the county citizens is to incetivice 
-cycling among the county residents,
-through the building of cycling infrastructure.
+    With that objective in mind,  and trough the use of data mining tools and extensive research
+    we found that a good solution to imporve the mobility of the county citizens is to incetivice 
+    cycling among the county residents,
+    through the building of cycling infrastructure.
 
-While looking trough the data, We also found other useful insights that might be worth mentioning.
-
-
-In this application we show the tough process that went into developing our solution and the 
-diferent insight that we found in the data.
-</div>
-
-""",unsafe_allow_html=True)
+    While looking trough the data, We also found other useful insights that might be worth mentioning.
 
 
+    In this application we show the tough process that went into developing our solution and the 
+    diferent insight that we found in the data.
+    </div>
 
-with st.expander("🚗🛵🥡 Initial data analisys and insights"):
+    """,unsafe_allow_html=True)
+
+
+
+
+#with st.expander("🚗🛵🥡 Initial data analisys and insights"):
+if  page == '📝📊 Initial data analisys and insights':
+    st.header(page)
     # @amin
     # La idea de esta parte es colcoar todas las gráficas de los insgishts que no tengan 
     # que ver mucho con las bicicletas o las intersecciones
@@ -183,8 +197,8 @@ with st.expander("🚗🛵🥡 Initial data analisys and insights"):
     </div>
 
     """,unsafe_allow_html=True)
-    
-  
+
+
     # Accidents vs Year
     graph = get_graph(
         df, 
@@ -204,9 +218,9 @@ with st.expander("🚗🛵🥡 Initial data analisys and insights"):
     <div style="text-align: justify">
 
     Regarding the months, the ones that accumulate more accidents are January and December, 
-    probably due to two main factors: road conditions at that time is rainy and snowy, 
-    negatively affecting mobility; while Christmas and vacation events promote the 
-    mobilization of many people, increasing the likelihood of vehicle crashes. 
+    probably due to two main factors: the weather during those months (snow and rain) affects
+    the road conditions boosting accidents; while christmas and vacation events tend to the 
+    mobilize many people, increasing the likelihood of vehicle crashes. 
 
     </div>
 
@@ -226,10 +240,10 @@ with st.expander("🚗🛵🥡 Initial data analisys and insights"):
     st.markdown("""
     <div style="text-align: justify">
 
-   The weekdays with the highest proportion of accidents are Thursdays, 
-   Fridays and Saturdays, as more people tend to go out to parties and gatherings, 
-   this is in constrast to Sundays and Mondays where people tend to stay at home and only 
-   go out to work.
+    The weekdays with the highest proportion of accidents are Thursdays, 
+    Fridays and Saturdays, as more people tend to go out to parties and gatherings, 
+    this is in constrast to Sundays and Mondays where people tend to stay at home and only 
+    go out to work.
 
     </div>
 
@@ -252,11 +266,11 @@ with st.expander("🚗🛵🥡 Initial data analisys and insights"):
     st.markdown("""
     <div style="text-align: justify">
 
-   Then, we decided to study how much weather conditions affect the proportion of disasters, 
-   and indeed if the road is wet the proportion is high, corroborating its increase at the
-   end of the year due to winter. The reason why the dry road has the highest number of 
-   accidents is because it is the common condition of the road, not because 
-   being dry promotes the occurrence of disasters.
+    Then, we decided to study how much weather conditions affect the proportion of disasters, 
+    and indeed if the road is wet the proportion is high, corroborating its increase at the
+    end of the year due to winter. The reason why the dry road has the highest number of 
+    accidents is because it is the common condition of the road, not because 
+    being dry promotes the occurrence of disasters.
 
     </div>
 
@@ -285,7 +299,7 @@ with st.expander("🚗🛵🥡 Initial data analisys and insights"):
 
     """,unsafe_allow_html=True)
 
-    
+
 
     # Accidents vs Light Condition
     graph = get_graph(
@@ -325,8 +339,8 @@ with st.expander("🚗🛵🥡 Initial data analisys and insights"):
 
 
 
-
-with st.expander("🚗🛵🥡 Delivery data insights"):
+if page == "🚗🛵🥡 Delivery data insights":
+    st.header(page)
    
     #st.plotly_chart(px.pie(df, values='tip', names='day'), use_container_width=True)
     st.write("""
@@ -338,7 +352,8 @@ with st.expander("🚗🛵🥡 Delivery data insights"):
 
 
 
-with st.expander("🚦 The intersection problem"):
+if page == "🚦 The intersection problem":
+    st.header(page)
     # Aqui faltarian mapas de accidentes cerca de intersecciones
         
     #@Amin ponme esta gráfica bonita (Si se pudiesen colocar los porcentajes estaría peppa)
@@ -355,7 +370,7 @@ with st.expander("🚦 The intersection problem"):
 
     """,unsafe_allow_html=True)
 
-    st.subheader("Intersection Crashes clusterized")
+    st.subheader("Intersection Crashes clusterized ✨🚦")
 
     st.image("https://d33wubrfki0l68.cloudfront.net/e1aaf634f896d77c5dd6bb59a4a28b18350cf3b8/8060f/wp-content/uploads/2019/07/clustering.png")
 
@@ -363,7 +378,7 @@ with st.expander("🚦 The intersection problem"):
                             lat="DEC_LAT", 
                             lon="DEC_LONG",  
                             color='CLUSTER_COUNT', #size='CRASH_YEAR', text = 'CLUSTER_COUNT',
-                            size_max=3, zoom=10))
+                            size_max=3, zoom=10),use_container_width=True)
 
 
     st.header("🚲💥 Bike crashes")
@@ -376,7 +391,7 @@ with st.expander("🚦 The intersection problem"):
                                     bk_crash_options,
                                     len(bk_crash_options)-1
                                     )  
-    
+
     if bike_crash_year != "2004-2020":
         df_crash_bikes = df.loc[df['BICYCLE']==True].loc[df['CRASH_YEAR']==bike_crash_year]    
     else:
@@ -396,7 +411,7 @@ with st.expander("🚦 The intersection problem"):
     st.write("""
     [Párrafo Explicando la data]
     """)            
-    st.subheader("Bike Crashes clusterized")
+    st.subheader("Bike Crashes clusterized ✨🚲")
     st.plotly_chart(px.scatter_mapbox(df_clust_bikes, 
                     lat="DEC_LAT", lon="DEC_LONG",  
                     color='Accidents per cluster',
@@ -405,7 +420,7 @@ with st.expander("🚦 The intersection problem"):
                     #color_continuous_scale= px.colors.sequential.turbo,
                     size='CRASH_YEAR',# text = 'CLUSTER_COUNT',
                     size_max=8, zoom=10),use_container_width=True)
-    
+
     st.markdown("""
     ## Protected Intersections
     A proven meassure to reduce these kind of accidents are protected intersections,
@@ -413,15 +428,14 @@ with st.expander("🚦 The intersection problem"):
     separated from cars by a buffer zone, and drivers gain wider visibility and thus 
     increase their reaction time.
     """)
-    
+
     st.image("https://cyclingtips.com/wp-content/uploads/2020/12/albert_landsdowne.jpg",
     caption="Proposed protected intersection in Melbourne Australia")
-    
 
 
 
-with st.expander("📈 Economics"):
-    
+if page == "📈 Economics":
+
     plot_data = pd.DataFrame({" ":["Personal Vehicle","Bicycle","E-Bike","Bike Sharing","Rideshare"],
                                "Cost [USD]"  :   [5921, 300,518,240,18456],
                                 })
@@ -439,8 +453,8 @@ with st.expander("📈 Economics"):
 
 
 
-with st.expander("📊 Datasets"):
-
+if page == "📊 Datasets":
+    st.header(page)
     st.write("""
     The data used for this study is the Allegheny County Crash Data, it is a dataset 
     containing information about the different car crashes and accidents that occurred 
@@ -454,8 +468,9 @@ with st.expander("📊 Datasets"):
 
 
 
-with st.expander("💡 Our proposal"):
 
+if page == "💡 Our proposal":
+    st.header(page)
     st.markdown("""
     <div style="text-align: justify">
     
