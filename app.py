@@ -357,6 +357,8 @@ with st.expander("🚦 The intersection problem"):
 
     st.subheader("Intersection Crashes clusterized")
 
+    st.image("https://d33wubrfki0l68.cloudfront.net/e1aaf634f896d77c5dd6bb59a4a28b18350cf3b8/8060f/wp-content/uploads/2019/07/clustering.png")
+
     st.plotly_chart(px.scatter_mapbox(df_clust_intersections, 
                             lat="DEC_LAT", 
                             lon="DEC_LONG",  
@@ -411,17 +413,25 @@ with st.expander("🚦 The intersection problem"):
     separated from cars by a buffer zone, and drivers gain wider visibility and thus 
     increase their reaction time.
     """)
+    
     st.image("https://cyclingtips.com/wp-content/uploads/2020/12/albert_landsdowne.jpg",
     caption="Proposed protected intersection in Melbourne Australia")
     
 
+
+
 with st.expander("📈 Economics"):
     
-    plot_data = pd.DataFrame(df['CRASH_YEAR'].value_counts())
+    plot_data = pd.DataFrame({" ":["Personal Vehicle","Bicycle","E-Bike","Bike Sharing","Rideshare"],
+                               "Cost [USD]"  :   [5921, 300,518,240,18456],
+                                })
+                                
     #@Amin aquí deberían estar las gráficas de los temas economicos que creo que mandó yisus
-    #st.plotly_chart(px.pie(plot_data), use_container_width=True)
+    st.plotly_chart(px.bar(plot_data, x  ="Cost [USD]", y =" ",  orientation="h",
+    title ="Total cost per comunig vehicle per year (logarithmic scale)",log_x=True ), use_container_width=True)
     st.write("""
-    [Párrafo Explicando la data]
+    Looking at the graph we can see that cycling options for daily comunting are 
+    way cheaper alternatives to cimmuting by car.
     """)
 
 
@@ -446,11 +456,90 @@ with st.expander("📊 Datasets"):
 
 with st.expander("💡 Our proposal"):
 
-    st.write("""
-    The data used for this study is the Allegheny County Crash Data, it is a dataset 
-    containing information about the different car crashes and accidents that occurred 
-    in the County between the years 2004 and 2020.  
-    The data set is well structured and contains lots of details abouteach accident. 
-    A data set provided by Gridwise was also employed to find some complementary insights 
-    for our proposal.
-    """)
+    st.markdown("""
+    <div style="text-align: justify">
+    
+    Being the city of Pittsburgh seat of the Allegheny County, it’s interesting to study 
+    the Bike(+) MasterPlan, which was published in June 2020 and 
+    it is currently being implemented, one very importantcurrent project that has been 
+    developed around alternatives means of transportation around the city. 
+    It is important to notice that the program is not only limited to bikes, 
+    the term is used to also includeother personal mobility devices such as electric
+    pedal-assist bicycles, kick scooters or e-scooters, andanother similar lightweight 
+    (less than 150 pounds), low-speed (less than 20 MPH) vehicles without 
+    internalcombustion engines.
+
+    </div>
+
+    """,unsafe_allow_html=True)
+
+    col1, col2, col3 = st.columns([1,6,1])
+
+    with col1:
+        st.write("")
+
+    with col2:
+        st.image("https://apps.pittsburghpa.gov/redtail/images/9995_Bike(+)_Plan_Cover.JPG")
+
+    with col3:
+        st.write("")
+    
+
+    st.markdown("""
+    <div style="text-align: justify">
+    
+    Our proposal for protected intersections will focus, in an initial phase, on the two 
+    sectors that contain the highest percentage of crashes that we want to avoid. The data
+    analysis showed that the areas to be used would be:
+
+    1. The East Allegheny, Strip District and Downtown Pittsburgh areas 
+    2. Friendship, Bloomfield and Shadyside.
+
+
+    Which respectively account for 8.5% and 8.2% of the intersection crashes involving the 
+    county. The goal of this proposal is to focus the Bike(+) Plan to increase bicyclist 
+    safety in at-risk areas.
+
+    </div>
+
+    """,unsafe_allow_html=True)
+
+    st.markdown("""
+    <div style="text-align: justify">
+    
+    We also propose to implement electric bicycles as a means of delivery. The expansion 
+    of bicycle infrastructure may lead to the introduction of new types of delivery 
+    workers who perform their services using bicycles because, according to data analysis, 
+    58% of delivery trips are 5 miles or less. This can be a benefit to the industry and 
+    workers because it lowers the barrier to entry for a delivery job, as a car is no l
+    onger required to complete customer orders. In addition, for delivery service workers, 
+    profits would increase by 52% by using electric bikes instead of cars to make 
+    deliveries. Because, although the number of daily deliveries would decrease, the costs 
+    associated with fuel and regular vehicle maintenance decrease significantly and net 
+    profit would increase. Therefore, the implementation of electric bicycles by delivery 
+    companies would mean traffic benefits within the city, higher net profits for workers, 
+    and a healthier lifestyle.
+
+    </div>
+
+    """,unsafe_allow_html=True)
+
+    st.markdown("""
+    <div style="text-align: justify">
+    
+    Finally, we consider the implementation of traffic control using artificial 
+    intelligence to monitor the status of traffic lights at intersections. These systems 
+    can be based on computer vision for detection of road agents (cars, bicycles, 
+    motorcycles, pedestrians, etc.) and the control algorithm employed can be based on 
+    reinforcement learning or traditional control theory. Currently, this style of 
+    solution is used to reduce intersection delay time at traffic signals, but it could 
+    also allow for a safer way to control bicycle and pedestrian traffic. However, it is 
+    very important to implement measures to ensure that the systems do not violate 
+    people's privacy and that appropriate tests are performed on the systems to 
+    corroborate their robustness to high-risk situations.
+
+    </div>
+
+    """,unsafe_allow_html=True)
+
+    st.image("https://www.artificialinventive.com/wp-content/uploads/elementor/thumbs/introducci%C3%B3n-a-visi%C3%B3n-por-computadora-oeoladq1ni8z945r0akzx7ofhs3l6jjmwslhfk9ie0.jpg")
