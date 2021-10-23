@@ -18,7 +18,8 @@ def get_graph(df,
               only_bikes=False, 
               ticks=0, 
               plt_f=px.bar,
-              horizontal=False 
+              horizontal=False,
+              **kwargs
               ):
     
     if only_bikes: df = df[df['BICYCLE'] == 1]
@@ -49,12 +50,12 @@ def get_graph(df,
             fig = plt_f(data_to_plot, x="count", y=group, #color='#00059E',
                 title= title,
                 labels = labels,
-                orientation="h")
+                orientation="h",**kwargs)
         
         else:
             fig = plt_f(data_to_plot, x=group, y="count", #color='#00059E',
                 title= title,
-                labels = labels)
+                labels = labels,**kwargs)
     
     else:
         df_groups = df.groupby(group)
@@ -83,12 +84,12 @@ def get_graph(df,
             fig = plt_f(data_to_plot, x="count", y=group, color=color,
                 title= title,
                 labels = labels,
-                orientation="h")
+                orientation="h",**kwargs)
         
         else:
             fig = plt_f(data_to_plot, x=group, y="count", color=color,
                 title= title,
-                labels = labels)
+                labels = labels,**kwargs)
 
 
 
@@ -162,6 +163,8 @@ with st.expander("🚗🛵🥡 Initial data analisys and insights"):
         #color = "CRASH_MONTH",
         #z_label = "month",
         only_bikes=False,
+        plt_f=px.line,
+        markers=True,
     )
     st.plotly_chart(graph, use_container_width=True)
 
@@ -249,7 +252,7 @@ with st.expander("🚦 The intersection problem"):
 
     st.header("🚲💥 Bike crashes")
     st.write("""
-    The map below show the number of bike accidents by year, there it is possible to 
+    The map below shows the number of bike accidents by year, there it is possible to 
     observe that a majority of the crashes occur near intersections.
     """)
     bk_crahs_options = year_list + ["2004-2020"]
