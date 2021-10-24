@@ -1,8 +1,9 @@
 import streamlit as st
 import plotly.express as px
 import matplotlib.pyplot as plt
-
 import pandas as pd
+from streamlit.legacy_caching.hashing import _key
+#import SessionState
 
 
 from get_dataframes import get_crash_data_df, get_gridwise_data_df, get_intersections_clust_data_df, get_bikes_clust_data_df
@@ -115,6 +116,8 @@ st.set_page_config(
 
 px.set_mapbox_access_token(st.secrets["map_box_key"])
 
+
+
 # Reading the datasets files
 
 df = get_crash_data_df()
@@ -129,40 +132,51 @@ df_clust_bikes = get_bikes_clust_data_df()
 year_list = list(df['CRASH_YEAR'].unique())
 # 
 st.sidebar.subheader("Index")
-page = st.sidebar.radio(
-            "",
-            ('Introduction', 
-            '📝📊 Initial data analisys and insights', 
-            '🚗🛵🥡 Delivery data insights',
-            "🚦 The intersection problem",
-            "💡 Our proposal",
-             "📊 Datasets"
-            ))
+
+pages = ['Introduction', 
+                '📝📊 Initial data analisys and insights', 
+                '🚗🛵🥡 Delivery data insights',
+                "🚦 The intersection problem",
+                "💡 Our proposal",
+                "🚀 Future benefits",
+                "📈 Economics",
+                "📊 Datasets",
+                "🧠 The Team",
+                "📚 References"
+]
+#a = st.sidebar.empty()
+
+if 'current_page' not in st.session_state:
+    st.session_state.current_page = 'Introduction'
+
+if 'index' not in st.session_state:
+    st.session_state.index = 0
+
+st.session_state.current_page = st.sidebar.radio(
+                                    "",
+                                    pages)
+                                    #st.session_state.index)
+
+#st.session_state.index = pages.index(st.session_state.current_page)
 
 # App layout #
-st.title('USB-SAE Mobility Team')
+st.title('USB-AI Mobility Team')
 
-if page == "Introduction":
+if st.session_state.current_page == "Introduction":
     st.image("https://media.istockphoto.com/photos/panoramic-view-of-pittsburgh-and-the-3-rivers-picture-id1093811582?k=20&m=1093811582&s=612x612&w=0&h=-KpOZ2OHlG7g2-A5fAGTCB0GtNCNVhmgZCqbr8hbzNE=")
 
     st.markdown("""
     <div style="text-align: justify">
 
-    Welcome to the USB-SAE Mobility Team interactive both for the SAE-AI mini challenge.
+    Welcome to the USB-AI Mobility Team interactive booth for the SAE-AI mini-challenge.
 
-    The objective of our entry was to develop a series of recomendations that would improve mobility accessibility, 
-    solving crucial social issues in Allegheny County, Pennsylvania, based mainly on data analisys.
+    The objective of our entry was to develop a series of recommendations that would improve mobility accessibility, solving crucial social issues in Allegheny County, Pennsylvania, based mainly on data analysis.
 
-    With that objective in mind,  and trough the use of data mining tools and extensive research
-    we found that a good solution to imporve the mobility of the county citizens is to incetivice 
-    cycling among the county residents,
-    through the building of cycling infrastructure.
+    With that objective in mind, and through the use of data mining tools and extensive research we found that a good solution to improve the mobility of the county citizens is to incentivize cycling among the county residents, through the development of cycling infrastructure.
 
-    While looking trough the data, We also found other useful insights that might be worth mentioning.
+    While looking through the data, we also found other useful insights that might be worth mentioning.
 
-
-    In this application we show the tough process that went into developing our solution and the 
-    diferent insight that we found in the data.
+    In this application, we show the complete process that went into developing our solution and the different insight that we found in the data.
     </div>
 
     """,unsafe_allow_html=True)
@@ -170,9 +184,8 @@ if page == "Introduction":
 
 
 
-#with st.expander("🚗🛵🥡 Initial data analisys and insights"):
-if  page == '📝📊 Initial data analisys and insights':
-    st.header(page)
+if  st.session_state.current_page == '📝📊 Initial data analisys and insights':
+    st.header(st.session_state.current_page)
     # @amin
     # La idea de esta parte es colcoar todas las gráficas de los insgishts que no tengan 
     # que ver mucho con las bicicletas o las intersecciones
@@ -339,21 +352,37 @@ if  page == '📝📊 Initial data analisys and insights':
 
 
 
-if page == "🚗🛵🥡 Delivery data insights":
-    st.header(page)
+if st.session_state.current_page == "🚗🛵🥡 Delivery data insights":
+    st.header(st.session_state.current_page)
    
     #st.plotly_chart(px.pie(df, values='tip', names='day'), use_container_width=True)
     st.write("""
-    [Párrafo Explicando la data]
+    One of the dataset that we work on was a gridwise dataset with delivery information of: 
+    115346 rideshare, 15512 food delivery and 475 grocery, from July 2019 to June 2020.
+    Amongs other things we want to know the distance of this delivery, because currently
+    all of them use an automovile for transportation.
     """)
+
+    fig = px.histogram(df_gw, x = "distance", labels=dict(probability_density="Count", distance="Distance in miles"))
+    fig.update_xaxes(range=[0, 40])
+    st.plotly_chart(fig, use_container_width=True)
+
+    st.markdown("""
+    <div style="text-align: justify">
+
+    It becomes clear that there is a high frecuency on the short distance side of the figure.
+    Actually 58 percent of the deliveries travels a distance of 5 miles or less.
+    This means that more than half hose trips can be completed by cycling.
+    </div>
+    """,unsafe_allow_html=True)
 
     
 
 
 
 
-if page == "🚦 The intersection problem":
-    st.header(page)
+if st.session_state.current_page == "🚦 The intersection problem":
+    st.header(st.session_state.current_page)
     # Aqui faltarian mapas de accidentes cerca de intersecciones
         
     #@Amin ponme esta gráfica bonita (Si se pudiesen colocar los porcentajes estaría peppa)
@@ -371,8 +400,41 @@ if page == "🚦 The intersection problem":
     """,unsafe_allow_html=True)
 
     st.subheader("Intersection Crashes clusterized ✨🚦")
+    st.markdown("""
+        <div style="text-align: justify">
+        
+        A method that we use to visualize the zones of the county where there were more 
+        accidents near instersections, was to clusterize the data using the k-means 
+        algorithm. In the map below it is possible to see that the city center is the area 
+        where are more accidents occur near road intersections.
 
-    st.image("https://d33wubrfki0l68.cloudfront.net/e1aaf634f896d77c5dd6bb59a4a28b18350cf3b8/8060f/wp-content/uploads/2019/07/clustering.png")
+        </div>
+
+        """,unsafe_allow_html=True)
+
+    with st.expander("✨ What is clusterization"):
+        st.markdown("""
+        <div style="text-align: justify">
+        
+        Clustering is the task of grouping a set of objects in such a 
+        way that objects in the same group (called a cluster) are more similar 
+        (in some sense) to each other than to those in other groups (clusters). (Wikipedia)
+
+        ### k-means clustering
+
+        The KMeans algorithm clusters data by trying to separate samples in n groups of 
+        equal variance, minimizing a criterion known as the inertia or within-cluster 
+        sum-of-squares (see below). This algorithm requires the number of clusters to 
+        be specified. It scales well to large number of samples and has been used across 
+        a large range of application areas in many different fields. (Sklearn)
+
+
+        </div>
+
+        """,unsafe_allow_html=True)
+        st.image("https://d33wubrfki0l68.cloudfront.net/e1aaf634f896d77c5dd6bb59a4a28b18350cf3b8/8060f/wp-content/uploads/2019/07/clustering.png")
+
+
 
     st.plotly_chart(px.scatter_mapbox(df_clust_intersections, 
                             lat="DEC_LAT", 
@@ -381,10 +443,11 @@ if page == "🚦 The intersection problem":
                             size_max=3, zoom=10),use_container_width=True)
 
 
-    st.header("🚲💥 Bike crashes")
+    st.header("🚲💥 Bike related crashes")
     st.write("""
-    The map below shows the number of bike accidents by year, there it is possible to 
-    observe that a majority of the crashes occur near intersections.
+    We also wanted to analize bike related accidents and the first thing we did was to 
+    them plot in a map.In the map it is possible to  observe that a majority of the 
+    accidents occur near intersections.
     """)
     bk_crash_options = year_list + ["2004-2020"]
     bike_crash_year = st.selectbox("Year",
@@ -405,12 +468,14 @@ if page == "🚦 The intersection problem":
                     size='BICYCLE_COUNT',
                     size_max=15, zoom=10),use_container_width=True)
 
-    #@Amin ponme esta gráfica bonita  (Si se pudiesen colocar los porcentajes estaría peppa)
+    
+    st.markdown("""
+    This is in fact confirmed by the following plot, aroud **70%** of 
+    all bike related crashes ocurr near intersections.
+    """)  
     plot_data = pd.DataFrame(df['INTERSECTION'].loc[df['BICYCLE']==True].value_counts())
     st.plotly_chart(px.bar(plot_data), use_container_width=True)
-    st.write("""
-    [Párrafo Explicando la data]
-    """)            
+              
     st.subheader("Bike Crashes clusterized ✨🚲")
     st.plotly_chart(px.scatter_mapbox(df_clust_bikes, 
                     lat="DEC_LAT", lon="DEC_LONG",  
@@ -423,7 +488,7 @@ if page == "🚦 The intersection problem":
 
     st.markdown("""
     ## Protected Intersections
-    A proven meassure to reduce these kind of accidents are protected intersections,
+    A proven meassure to prevent and reduce these kind of accidents are protected intersections,
     These are a special type of intersection where the cyclist and pedestrians are 
     separated from cars by a buffer zone, and drivers gain wider visibility and thus 
     increase their reaction time.
@@ -434,7 +499,11 @@ if page == "🚦 The intersection problem":
 
 
 
-if page == "📈 Economics":
+if st.session_state.current_page == "📈 Economics":
+
+    st.markdown("""
+    We intuitively assume that the costs associated with a bicycle are less than a vehicle, but how much less?
+    """)
 
     plot_data = pd.DataFrame({" ":["Personal Vehicle","Bicycle","E-Bike","Bike Sharing","Rideshare"],
                                "Cost [USD]"  :   [5921, 300,518,240,18456],
@@ -444,17 +513,53 @@ if page == "📈 Economics":
     st.plotly_chart(px.bar(plot_data, x  ="Cost [USD]", y =" ",  orientation="h",
     title ="Total cost per comunig vehicle per year (logarithmic scale)",log_x=True ), use_container_width=True)
     st.write("""
+    A thorough explanation of the calculations made to obtain this figure can be found [here]
+    (https://docs.google.com/spreadsheets/d/1Z71tazN491rzIdnNvWWqFI-zk8twvNgIUo6BUs9BqMc/edit?usp=sharing).
+    
+
     Looking at the graph we can see that cycling options for daily comunting are 
-    way cheaper alternatives to cimmuting by car.
+    way cheaper alternatives to commuting by car.
     """)
 
 
+    st.markdown("""
+    The annual cost of owning a vehicle starts at 6.000$ for a common sedan, compared to the 300$ that 
+    represents owning a commuting bicycle, based on the average commuting distance of 16 miles on one way. 
+    Looking at the graph, it’s clear that bicycle-related means of transportation, such as owning an e-bike, 
+    a regular bicycle, or even using bicycle-sharing services, are way cheaper alternatives for daily commuting.
+    The cost of owning a vehicle covers its maintenance, insurance, licenses, the overall payment of the vehicle, 
+    and particularly gasoline consumption. Car owners spend more than 1.200$ a year on gas,based on the average 
+    commuting distance of U.S. citizens, a fuel economy of 23 MPG, and a total of 261 working days a year. Particularly, 
+    Pennsylvania reports gasoline prices up to 3.33$ / Gal, and also, this state reported the highest taxes to gasoline 
+    consumption overall in the U.S., up to 0.777$/Gal. Also, the study 
+    [Transport transitions in Copenhagen: Comparing the cost of cars and bicycles](https://doi.org/10.1016/j.ecolecon.2015.03.006) 
+    reach the conclusion that, on average, bicycle corresponded to a 0.08 Euros/km of cost (considering the private sector, 
+    social effects, and other aspects) compared to the 0.50 Euros/km of cost for cars. These conclusions make bicycles a 
+    very attractive alternative.
+    """)
+
+
+    st.markdown("""
+    But it’s not only the people who are getting an economical benefit out of bicycle riding, 
+    around the world many cities have shown that bicycle usage as regular commuting means of 
+    transportation can translate to an increase in tourism rates, like Amsterdam and Utrecht 
+    in the Netherlands, Antwerp in Belgium, and Copenhagen in Denmark. Particularly, Copenhagen 
+    has developed a strong bicycle culture for itself, and bicycle usage reaches 28% of the total 
+    of trips reported in the country by 2019, according to the study 
+    [E-bikes—good  for  public  health?. Advances  In Transportation And Health](https://doi.org/10.1016/B978-0-12-819136-1.00011-5). 
+    With an overall 76% of people feeling safe by using bicycles overall and aiming to reach 90% of 
+    acceptance by 2025, the city has gained popularity as one of the top destinations for bicycle 
+    usage. As reflected in the study [Transport transitions in Copenhagen:  Comparing the cost of cars 
+    and bicycles](https://doi.org/10.1016/j.ecolecon.2015.03.006), the tourism value of being a bicycle-related 
+    country was 7.2 million Euros per year by 2008, representing 2% of the overall tourism of the country.
+    """)
+    
+    st.write("[Calculations](https://docs.google.com/spreadsheets/d/1Z71tazN491rzIdnNvWWqFI-zk8twvNgIUo6BUs9BqMc/edit?usp=sharing)")
 
 
 
-
-if page == "📊 Datasets":
-    st.header(page)
+if st.session_state.current_page == "📊 Datasets":
+    st.header(st.session_state.current_page)
     st.write("""
     The data used for this study is the Allegheny County Crash Data, it is a dataset 
     containing information about the different car crashes and accidents that occurred 
@@ -466,11 +571,8 @@ if page == "📊 Datasets":
 
 
 
-
-
-
-if page == "💡 Our proposal":
-    st.header(page)
+if st.session_state.current_page == "💡 Our proposal":
+    st.header(st.session_state.current_page)
     st.markdown("""
     <div style="text-align: justify">
     
@@ -522,6 +624,8 @@ if page == "💡 Our proposal":
     st.markdown("""
     <div style="text-align: justify">
     
+    ##
+
     We also propose to implement electric bicycles as a means of delivery. The expansion 
     of bicycle infrastructure may lead to the introduction of new types of delivery 
     workers who perform their services using bicycles because, according to data analysis, 
@@ -542,6 +646,65 @@ if page == "💡 Our proposal":
     st.markdown("""
     <div style="text-align: justify">
     
+    ##  Traffic density
+
+    With the objective of reducing traffic density, there should be noted that Mount 
+    Lebanon, Beechview and the White Hall neighborhoods,located in the southern west part 
+    of the city, have high traffic density during rush hour, and are not cover by the new bike 
+    rental locations from the Bike(+) Plan, and so are important to be consider.
+    
+    </div>
+
+    """,unsafe_allow_html=True)
+
+    st.image("images/proposal/Traffic density in Pittsburgh.png", 
+    'Pittsburg traffic density map.')
+
+
+
+
+    st.markdown("""
+    <div style="text-align: justify">
+    
+    ##  Obesity rates
+
+    Our solution can positvely affect  the high 
+    obesity rates found in Allegheny County being approximately  34%, 4% higher than the national 
+    average.  That is why we took into account the obesity distribution (show in the figure below),
+    to target areas with high obesity rates
+    in the solution.  Particularly, the northwest part ofthe city reports obesity rates 
+    that are considerably higher than the rest of the city.  This neighborhoods should be 
+    taken into consideration for improving their health and quality of life. 
+    
+    </div>
+
+    """,unsafe_allow_html=True)
+
+    st.image("images/proposal/Obesity map.png", 
+    'Pittsburg obesity distribution map.')
+
+
+    st.markdown("""
+    <div style="text-align: justify">
+    
+    ## Poverty density
+
+    The implementation of the Bike (+) Plan could 
+    be a solution for those that do not have the possibility to afford a car. In this regard, 
+    we take into account our target to be the low moderate and high-moderate poverty zones.  
+    
+    </div>
+
+    """,unsafe_allow_html=True)
+
+    st.image("images/proposal/Poverty density map.png", 
+    'Pittsburg poverty density map: From this map we can see that entire city could benefit from this service, improving easy-access to mobility overall.')
+
+    st.markdown("""
+    <div style="text-align: justify">
+
+    ## Traffic control systems
+    
     Finally, we consider the implementation of traffic control using artificial 
     intelligence to monitor the status of traffic lights at intersections. These systems 
     can be based on computer vision for detection of road agents (cars, bicycles, 
@@ -557,4 +720,87 @@ if page == "💡 Our proposal":
 
     """,unsafe_allow_html=True)
 
-    st.image("https://www.artificialinventive.com/wp-content/uploads/elementor/thumbs/introducci%C3%B3n-a-visi%C3%B3n-por-computadora-oeoladq1ni8z945r0akzx7ofhs3l6jjmwslhfk9ie0.jpg")
+    st.image("https://www.artificialinventive.com/wp-content/uploads/elementor/thumbs/introducci%C3%B3n-a-visi%C3%B3n-por-computadora-oeoladq1ni8z945r0akzx7ofhs3l6jjmwslhfk9ie0.jpg",
+    "Visual representation of a visual detection algorithm for dettecting objects in a street")
+
+
+if st.session_state.current_page == "🚀 Future benefits":
+
+    st.image("https://static01.nyt.com/images/2017/09/07/world/07Bikes1/02Bikes1-superJumbo.jpg",
+    "Cyclists crossing an intersection near the Central Station of Utrecht, the Netherlands. [https://www.nytimes.com/2017/09/06/world/europe/bicycling-utrecht-dutch-love-bikes-worlds-largest-bike-parking-garages.html]")
+
+    st.markdown("""
+    <div style="text-align: justify">
+
+    ## 
+    
+    
+
+    </div>
+
+    """,unsafe_allow_html=True)
+
+
+if st.session_state.current_page == "🧠 The Team":
+
+    st.write("[Párrafo hablando paja del equipo]")
+    col1, col2, col3 = st.columns(3)
+    
+    col1.write("Mechanichal Engineering - USB")
+    col1.write("[Linkedin Profile](https://www.linkedin.com/in/jeppires/?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAACyfAuYBfdUUHjCot76aaeadm6q07bf6PjM)")
+    col1.write("[Github Profile](https://github.com/jesusepp)")
+
+    col1.write("Computer Engineering - USB")
+    col1.write("[Linkedin Profile](https://www.linkedin.com/in/amin-lorenzo-arriaga-utrera-8379b0177/)")
+    col1.write("[Github Profile](https://github.com/eduardo98m)")
+
+    col2.write("Production Engineering - USB")
+    col2.write("[Linkedin Profile](https://www.linkedin.com/in/oriana-petitjean-a19a721b4/?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAADH9wjUBYlhB96eYOzTEAbXyOI0x0Hdb-WY)")
+    col2.write("[Github Profile](https://github.com/eduardo98m)")
+
+    col2.write("Mechanichal Engineering - USB")
+    col2.write("[Linkedin Profile](https://www.linkedin.com/in/carlosdanielcorrea/?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAACpKGlIBIhYEqBtJmS78bEIBxPM4PU-aEzw)")
+    col2.write("[Github Profile](https://github.com/eduardo98m)")
+
+
+    col3.write("Computer Engineering - USB")
+    col3.write("[Linkedin Profile](https://www.linkedin.com/in/jrbarreram/?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAACvtuqIBvuk9GUtXxIB2-Vv7yyuIWQqekb4)")
+    col3.write("[Github Profile](https://github.com/JRBarreraM)")
+
+    col3.write("Mechanichal Engineering - USB")
+    col3.write("[Linkedin Profile](https://www.linkedin.com/in/eduardo-lópez-a934ba15b/)")
+    col3.write("[Github Profile](https://github.com/eduardo98m)")
+
+
+    col2.write("Research Engineer- Ford")
+    col2.write("[Linkedin Profile](https://www.linkedin.com/in/alemayehu-solomon-admasu/)")
+    col2.write("[Github Profile](https://github.com/eduardo98m)")
+
+if st.session_state.current_page == "📚 References":
+    st.write("Amin mete las refencias aqui")
+
+"""
+col1, col2, col3 = st.columns([1,6,1])
+
+with col1:
+    
+    if st.session_state.current_page !=  pages[0]:
+        prev =  st.button('Previous', key="previous")
+        if prev:
+            print("atras")
+            st.session_state.index = pages.index(st.session_state.current_page) - 1
+            #st.session_state.current_page = pages[st.session_state.index ]
+            prev = False
+            
+
+with col3:
+    
+    if st.session_state.current_page !=  pages[-1]:
+        
+        next =  st.button('Next', key="next")
+        if next:
+            print("adelante")
+            st.session_state.index = pages.index(st.session_state.current_page) + 1
+            #st.session_state.current_page = pages[st.session_state.index ]
+            next = False
+"""
