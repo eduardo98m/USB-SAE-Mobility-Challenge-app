@@ -1055,22 +1055,23 @@ if st.session_state.current_page == "🧠 The Team":
 
 if st.session_state.current_page == "📚 References":
     st.markdown("""
-  1. Best Place. (n.d.). Pittsburgh, Pennsylvania commuting. Retrieved October 13, 2021, from <https://www.bestplaces.net/transportation/city/pennsylvania/pittsburgh>.
+  1. Best Place. (n.d.). Pittsburgh, Pennsylvania commuting. Retrieved October 13, 2021, from: <https://www.bestplaces.net/transportation/city/pennsylvania/pittsburgh>.
   
-  2. Shumway, J. (2021, April 20). City of Pittsburgh to add hundreds of miles of new bike lanes to existing network. CBS Pittsburgh. Retrieved October 13, 2021, from <https://pittsburgh.cbslocal.com/2021/04/20/city-of-pittsburgh-bike-lanes/>.
+  2. Shumway, J. (2021, April 20). City of Pittsburgh to add hundreds of miles of new bike lanes to existing network. CBS Pittsburgh. Retrieved October 13, 2021, from: <https://pittsburgh.cbslocal.com/2021/04/20/city-of-pittsburgh-bike-lanes/>.
   
   3. Sundfør, H., Fyhri, A., & Bjørnarå, H. (2020). E-bikes—good for public health?. Advances In Transportation And Health, 251-266. doi: 10.1016/b978-0-12-819136-1.00011-5
   
-  4. Københavns Kommune. (2021). Status på København 2020. Retrieved October 13, 2021, <from https://www.kk.dk/sites/default/files/status_paa_koebenhavn_2020.pdf>
+  4. Københavns Kommune. (2021). Status på København 2020. Retrieved October 13, 2021,from: <https://www.kk.dk/sites/default/files/status_paa_koebenhavn_2020.pdf>
   
-  5. Danish Road Directorate. (2020, June). Road Technical Solutions for Cyclists. Retrieved October 13, 2021, from <https://cyclingsolutions.info/wp-content/uploads//2021/01/RoadTechnical-Solutions.pdf>
+  5. Danish Road Directorate. (2020, June). Road Technical Solutions for Cyclists. Retrieved October 13, 2021, from: <https://cyclingsolutions.info/wp-content/uploads//2021/01/RoadTechnical-Solutions.pdf>
   
-  6. Ink, S. (2020, October 16). Protected intersections. National Association of City Transportation Officials. Retrieved from <https://nacto.org/publication/dont-give-up-at-the-intersection/protected-intersections/>.
+  6. Ink, S. (2020, October 16). Protected intersections. National Association of City Transportation Officials. Retrieved from: <https://nacto.org/publication/dont-give-up-at-the-intersection/protected-intersections/>.
   
-  7. The environmental impacts of riding an Ebike. Aventon Bikes. (2021, February 19). Retrieved October 13, 2021, from <https://www.aventon.com/blogs/aventon_bikes/the-environmental-impacts-of-riding-an-ebike>.
+  7. The environmental impacts of riding an Ebike. Aventon Bikes. (2021, February 19). Retrieved October 13, 2021, from: <https://www.aventon.com/blogs/aventon_bikes/the-environmental-impacts-of-riding-an-ebike>.
   
-  8. (2016, October 19). Promoting cycling: Changes to expect. Mobility and transport - European Commission. Retrieved October 13, 2021, from <https://ec.europa.eu/transport/road_safety/specialist/knowledge/pedestrians/promote_cycling_and_bicycle_helmets_or_not/promoting_cycling_changes_to_expect_en>.
+  8. (2016, October 19). Promoting cycling: Changes to expect. Mobility and transport - European Commission. Retrieved October 13, 2021, from: [https://ec.europa.eu/transport/road_safety/specialist/knowledge/pedestrians/
+  promote_cycling_and_bicycle_helmets_or_not/promoting_cycling_changes_to_expect_en](https://ec.europa.eu/transport/road_safety/specialist/knowledge/pedestrians/promote_cycling_and_bicycle_helmets_or_not/promoting_cycling_changes_to_expect_en).
   
-  9. City of Pittsburgh. (2020). Bike(+) Master Plan. Retrieved October 13, 2021 from <https://apps.pittsburghpa.gov/redtail/images/9994_Pittsburgh_Bike+_Plan_06_15_2020.pdf>.
+  9. City of Pittsburgh. (2020). Bike(+) Master Plan. Retrieved October 13, 2021 from: <https://apps.pittsburghpa.gov/redtail/images/9994_Pittsburgh_Bike+_Plan_06_15_2020.pdf>.
     """,unsafe_allow_html=True)
 
