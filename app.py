@@ -137,9 +137,8 @@ pages = ['Introduction',
                 '📝📊 Initial data analisys and insights', 
                 '🚗🛵🥡 Delivery data insights',
                 "🚦 The intersection problem",
+                "🚲 The cycling context",
                 "💡 Our proposal",
-                "🚀 Future benefits",
-                "📈 Economics",
                 "📊 Datasets",
                 "🧠 The Team",
                 "📚 References"
@@ -229,10 +228,12 @@ if  st.session_state.current_page == '📝📊 Initial data analisys and insight
     st.markdown("""
     <div style="text-align: justify">
 
-    Regarding the months, the ones that accumulate more accidents are January and December, 
-    probably due to two main factors: the weather during those months (snow and rain) affects
-    the road conditions boosting accidents; while christmas and vacation events tend to the 
-    mobilize many people, increasing the likelihood of vehicle crashes. 
+
+    Regarding the months, the ones that accumulate more accidents are January and December, probably due to two main factors: 
+
+    * Weather: during those months (snow and rain) affects the road conditions, possibly increasing accident potential
+    * Holidays: an increase in mobilization during Christmas and vacation could increase the likelihood of vehicle crashes overall
+
 
     </div>
 
@@ -252,10 +253,9 @@ if  st.session_state.current_page == '📝📊 Initial data analisys and insight
     st.markdown("""
     <div style="text-align: justify">
 
-    The weekdays with the highest proportion of accidents are Thursdays, 
-    Fridays and Saturdays, as more people tend to go out to parties and gatherings, 
-    this is in constrast to Sundays and Mondays where people tend to stay at home and only 
-    go out to work.
+    The weekdays with the highest proportion of accidents are Thursdays, Fridays, and 
+    Saturdays when people tend to go out to parties and gatherings, in comparison to 
+    Sundays and Mondays where people tend to stay at home and only go out to work.
 
     </div>
 
@@ -277,12 +277,13 @@ if  st.session_state.current_page == '📝📊 Initial data analisys and insight
 
     st.markdown("""
     <div style="text-align: justify">
-
-    Then, we decided to study how much weather conditions affect the proportion of disasters, 
-    and indeed if the road is wet the accident proportion is higher, corroborating that the increase of crahses at the
-    end of the year is due to winter conditions. The reason why the dry road has the highest number of 
-    accidents is because it is the common condition of the road, not because 
-    the road being dry augments the likelyhood of disasters.
+    
+    Then, we decided to study how much weather conditions affect the proportion of crashes, 
+    and indeed if the road is wet the accident proportion is higher, corroborating that the 
+    increase of crashes at the end of the year is due to winter conditions. Accidents in dry 
+    road conditions are more common overall, as this condition is the most frequent in the 
+    year. It is not to be confused with an increase in the likelihood of traffic accidents 
+    happening.
 
     </div>
 
@@ -302,11 +303,12 @@ if  st.session_state.current_page == '📝📊 Initial data analisys and insight
     st.markdown("""
     <div style="text-align: justify">
 
-    Another important factor that we took into consideration are road the illumination 
-    conditions, which are also related to the weather since during winter the nights last 
-    longer. It can be noted that a significant proportion of accidents occur in areas 
-    without streetlighs, thus installing streetlights in those areas could be a 
+    Another important factor that we took into consideration is the road illumination 
+    conditions, which are also related to the weather since, during winter, the nights 
+    last longer. It can be noted that a significant proportion of accidents occur in areas
+    without streetlights, thus installing streetlights in those areas could be a 
     significant step to solving this problem.
+
     </div>
 
     """,unsafe_allow_html=True)
@@ -328,11 +330,12 @@ if  st.session_state.current_page == '📝📊 Initial data analisys and insight
     <div style="text-align: justify">
 
     Lastly, we noticed that the number of accidents that occurred on roads with 25 mph 
-    speed limits is very high. This is a relevant insight, as it can be explained by two 
-    factors: that most roads have a 25 mph speed limit, but also that such a limit may not 
-    be appropriate for some of the roads where it is imposed, i.e., reducing the speed 
-    limit to 20 mph by introducing some traffic calming measures may result in a reduction 
-    of accidents on those roads. 
+    speed limits is the highest overall. This is a relevant insight, as it can be 
+    explained by two factors: that most roads have a 25 mph speed limit; but also that 
+    such a limit may not be appropriate for some of the roads where it is imposed, i.e., 
+    reducing the speed limit to 20 mph by introducing some traffic calming measures may
+     result in a reduction of accidents on those roads.
+    
     </div>
 
     """,unsafe_allow_html=True)
@@ -357,10 +360,10 @@ if st.session_state.current_page == "🚗🛵🥡 Delivery data insights":
    
     #st.plotly_chart(px.pie(df, values='tip', names='day'), use_container_width=True)
     st.write("""
-    One of the dataset that we work on was a gridwise dataset with delivery information of: 
-    115346 rideshare, 15512 food delivery and 475 grocery, from July 2019 to June 2020.
-    Amongs other things we want to know the distance of this delivery, because currently
-    all of them use an automovile for transportation.
+    One of the data sets that we worked on was the Gridwise data set, with delivery 
+    information of 115346 rideshares, 15512 food deliveries, and 475 grocery deliveries, 
+    from July 2019 to June 2020. Among other things, we want to know the distance of these 
+    deliveries, because currently all of them use an automobile for transportation
     """)
 
     fig = px.histogram(df_gw, x = "distance", labels=dict(probability_density="Count", distance="Distance in miles"))
@@ -387,9 +390,10 @@ if st.session_state.current_page == "🚦 The intersection problem":
 
     st.markdown("""
     <div style="text-align: justify">
-    One of the most important features we found in the data is that around 40% of all 
-    accidents occurred near intersections. This means that intersections are a
-    focal point that increases the proportion of traffic accidents. 
+
+    One of the most important features we found in the data is that around **40%** of 
+    all accidents occurred near intersections. Meaning that intersections are a focal 
+    point that increases the proportion of traffic accidents.. 
     
     </div>
 
@@ -403,16 +407,16 @@ if st.session_state.current_page == "🚦 The intersection problem":
     st.markdown("""
         <div style="text-align: justify">
         
-        A method that we use to visualize the zones of the county where there were more 
-        accidents near instersections, was to clusterize the data using the k-means 
-        algorithm. In the map below it is possible to see that the city center is the area 
-        where are more accidents occur near street intersections.
+        A method that we used to visualize the zones of the county where there were more 
+        accidents near intersections, was to cluster the data using the k-means algorithm.
+         In the map below you can see that the city center is the area where more
+          accidents occur near street intersections.
 
         </div>
 
         """,unsafe_allow_html=True)
 
-    with st.expander("✨ What is clusterization"):
+    with st.expander("✨ What is clusterization ?"):
         st.markdown("""
         <div style="text-align: justify">
         
@@ -424,9 +428,9 @@ if st.session_state.current_page == "🚦 The intersection problem":
 
         The KMeans algorithm clusters data by trying to separate samples in n groups of 
         equal variance, minimizing a criterion known as the inertia or within-cluster 
-        sum-of-squares (see below). This algorithm requires the number of clusters to 
-        be specified. It scales well to large number of samples and has been used across 
-        a large range of application areas in many different fields. (Sklearn)
+        sum-of-squares (see below). This algorithm requires the number of clusters to be 
+        specified. It scales well to a large number of samples and has been used across a 
+        large range of application areas in many different fields. (Sklearn)
 
 
         </div>
@@ -445,9 +449,9 @@ if st.session_state.current_page == "🚦 The intersection problem":
 
     st.header("🚲💥 Bike related crashes")
     st.write("""
-    We also wanted to analize bike related accidents and the first thing we did was to 
-    plot them in a map. In the map below it is possible to  observe that a majority of the 
-    accidents occur near intersections.
+    We also wanted to analyze bike-related accidents, and the first thing we did was plot 
+    them on a map. In the map below you can see that a majority of the accidents occur 
+    near intersections.
     """)
     bk_crash_options = year_list + ["2004-2020"]
     bike_crash_year = st.selectbox("Year",
@@ -470,8 +474,8 @@ if st.session_state.current_page == "🚦 The intersection problem":
 
     
     st.markdown("""
-    This is in fact confirmed by the following bar plot, that tells us that aroud **70%** of 
-    all bike related crashes ocurr near intersections.
+    This is, in fact, confirmed by the following bar plot, which tells us that around 
+    **70%** of all bike-related crashes occurred near intersections.
     """)  
     plot_data = pd.DataFrame(df['INTERSECTION'].loc[df['BICYCLE']==True].value_counts())
     st.plotly_chart(px.bar(plot_data), use_container_width=True)
@@ -489,11 +493,11 @@ if st.session_state.current_page == "🚦 The intersection problem":
     st.markdown("""
     <div style="text-align: justify">
     
-    In this case the data is clear that regular intersections are a serious problems for 
-    all traffic actor (cyclist and drivers). The safery risk that they pose is so great that
-    a significant proportion of all traffic accidents occur near them and it extends to 
-    almos 70% in the case of bicycle related accidents. Thes in turn inhibits people from 
-    cycling and makes driving a more significant safety risk.
+    In this case, the data shows that regular intersections are a serious problem for all 
+    traffic actors (cyclists and drivers). The safety risk that they pose is so great that 
+    a significant proportion of all traffic accidents occur near them, and it extends to 
+    almost 70% in the case of bicycle-related accidents. They, in turn, inhibit people 
+    from cycling and make driving a more significant safety risk.
 
     </div>
 
@@ -501,10 +505,10 @@ if st.session_state.current_page == "🚦 The intersection problem":
 
     st.markdown("""
     ## Protected Intersections
-    A proven meassure to prevent and reduce these kind of accidents are protected intersections,
-    These are a special type of intersection where the cyclist and pedestrians are 
-    separated from cars by a buffer zone, and drivers gain wider visibility and thus 
-    increase their reaction time.
+    A proven measure to prevent and reduce these kinds of accidents is protected 
+    intersections. These are a special type of intersection where the cyclist and 
+    pedestrians are separated from cars by a buffer zone, and drivers gain wider 
+    visibility, increasing their reaction time.
     """)
 
     st.image("https://cyclingtips.com/wp-content/uploads/2020/12/albert_landsdowne.jpg",
@@ -512,7 +516,36 @@ if st.session_state.current_page == "🚦 The intersection problem":
 
 
 
-if st.session_state.current_page == "📈 Economics":
+if st.session_state.current_page ==  "🚲 The cycling context":
+
+    st.header(st.session_state.current_page)
+
+    st.markdown("""
+    <div style="text-align: justify">
+
+    According to the discoveries and insight made in the exploratory data analysis phase 
+    , there is strong evidence pointing at intersections as an unsafe place 
+    for bicycle riders. Lack of alternative bicycle roads and the imminent dangers of 
+    intersections could be holding back a potential alternative to thegas-powered cars 
+    that represent the 72% of commuting vehicles in Allegheny County[3].  
+    Even the city’sDirector of Mobility and Infrastructure Karina Ricks states that 
+    about 60% of that population is willing to bike if they feel the lanes are safe 
+    enough[7].  Therefore, solving part of Allegheny County’s mobility problems using 
+    bicycles is not only feasible and beneficial but could be a solution fully embraced 
+    by its citizens.
+    
+    In this section we will explain some of the benefits of cycling.
+
+    </div>
+
+    """,unsafe_allow_html=True)
+
+
+    st.image("https://static01.nyt.com/images/2017/09/07/world/07Bikes1/02Bikes1-superJumbo.jpg",
+    "Cyclists crossing an intersection near the Central Station of Utrecht, the Netherlands. [https://www.nytimes.com/2017/09/06/world/europe/bicycling-utrecht-dutch-love-bikes-worlds-largest-bike-parking-garages.html]")
+
+
+    st.header("📈 Economics")
 
     st.markdown("""
     We intuitively assume that the costs associated with a bicycle are less than a vehicle, but how much less?
@@ -569,6 +602,8 @@ if st.session_state.current_page == "📈 Economics":
     
     st.write("[Calculations](https://docs.google.com/spreadsheets/d/1Z71tazN491rzIdnNvWWqFI-zk8twvNgIUo6BUs9BqMc/edit?usp=sharing)")
 
+    st.header("🦺✔️ Safety and Accessibility")
+
 
 
 if st.session_state.current_page == "📊 Datasets":
@@ -585,19 +620,19 @@ if st.session_state.current_page == "📊 Datasets":
 
 
 if st.session_state.current_page == "💡 Our proposal":
+    
     st.header(st.session_state.current_page)
     st.markdown("""
     <div style="text-align: justify">
     
     Being the city of Pittsburgh seat of the Allegheny County, it’s interesting to study 
-    the Bike(+) MasterPlan, which was published in June 2020 and 
-    it is currently being implemented, one very importantcurrent project that has been 
-    developed around alternatives means of transportation around the city. 
-    It is important to notice that the program is not only limited to bikes, 
-    the term is used to also includeother personal mobility devices such as electric
-    pedal-assist bicycles, kick scooters or e-scooters, andanother similar lightweight 
-    (less than 150 pounds), low-speed (less than 20 MPH) vehicles without 
-    internalcombustion engines.
+    the Bike(+) MasterPlan, which was published in June 2020 and is currently being 
+    implemented. It is a very important current project that develops around alternative 
+    means of transportation around the city. It is important to notice that the program is 
+    not only limited to bikes, it also includes other personal mobility devices such as 
+    electric pedal-assist bicycles, kick-scooters or e-scooters, and another similar 
+    lightweight (less than 150 pounds), low-speed (less than 20 MPH) vehicles without 
+    internal combustion engines.
 
     </div>
 
@@ -617,18 +652,17 @@ if st.session_state.current_page == "💡 Our proposal":
 
     st.markdown("""
     <div style="text-align: justify">
-    
+
     Our proposal for protected intersections will focus, in an initial phase, on the two 
     sectors that contain the highest percentage of crashes that we want to avoid. The data
     analysis showed that the areas to be used would be:
-
-    1. The East Allegheny, Strip District and Downtown Pittsburgh areas 
-    2. Friendship, Bloomfield and Shadyside.
-
-
+   
+    1. The East Allegheny, Strip District, and Downtown Pittsburgh areas
+    2. Friendship, Bloomfield, and Shadyside.
+    
     Which respectively account for 8.5% and 8.2% of the intersection crashes involving the 
-    county. The goal of this proposal is to focus the Bike(+) Plan to increase bicyclist 
-    safety in at-risk areas.
+    county. The goal of this proposal is to expand the Bike(+) Plan, focusing in critical 
+    areas for bicyclist safety.
 
     </div>
 
@@ -637,20 +671,19 @@ if st.session_state.current_page == "💡 Our proposal":
     st.markdown("""
     <div style="text-align: justify">
     
-    ##
+    ## Delivery Companies
 
-    We also propose to implement electric bicycles as a means of delivery. The expansion 
-    of bicycle infrastructure may lead to the introduction of new types of delivery 
-    workers who perform their services using bicycles because, according to data analysis, 
-    58% of delivery trips are 5 miles or less. This can be a benefit to the industry and 
-    workers because it lowers the barrier to entry for a delivery job, as a car is no l
-    onger required to complete customer orders. In addition, for delivery service workers, 
-    profits would increase by 52% by using electric bikes instead of cars to make 
-    deliveries. Because, although the number of daily deliveries would decrease, the costs 
-    associated with fuel and regular vehicle maintenance decrease significantly and net 
-    profit would increase. Therefore, the implementation of electric bicycles by delivery 
-    companies would mean traffic benefits within the city, higher net profits for workers, 
-    and a healthier lifestyle.
+    We also propose to implement e-bikes as a means of delivery. The expansion of bicycle 
+    infrastructure may lead to the introduction of new delivery workers who perform their 
+    services using bicycles because, according to data analysis, 58% of delivery trips are 
+    5 miles or less. This can be a benefit to the industry and workers because it lowers 
+    the barrier to entry for a delivery job, as a car is no longer required to complete 
+    customer orders. In addition, for delivery service workers, profits could increase by 
+    52% by using e-bikes instead of cars to make deliveries. Because, although the number 
+    of daily deliveries would decrease, the costs associated with fuel and regular vehicle 
+    maintenance decrease significantly, and net profits would increase. Therefore, the 
+    implementation of e-bicycles by delivery companies would mean traffic benefits within 
+    the city, higher net profits for workers, and a healthier lifestyle.
 
     </div>
 
@@ -661,10 +694,10 @@ if st.session_state.current_page == "💡 Our proposal":
     
     ##  Traffic density
 
-    With the objective of reducing traffic density, there should be noted that Mount 
-    Lebanon, Beechview and the White Hall neighborhoods,located in the southern west part 
-    of the city, have high traffic density during rush hour, and are not cover by the new bike 
-    rental locations from the Bike(+) Plan, and so are important to be consider.
+    To reduce traffic density, there should be noted that Mount Lebanon, Beechview and the 
+    White Hall neighborhoods, located in the southern west part of the city, have high 
+    traffic density during rush hour, and are not cover by the new bike rental locations 
+    from the Bike(+) Plan, and so are important to be consider.
     
     </div>
 
@@ -681,13 +714,13 @@ if st.session_state.current_page == "💡 Our proposal":
     
     ##  Obesity rates
 
-    Our solution can positvely affect  the high 
-    obesity rates found in Allegheny County being approximately  34%, 4% higher than the national 
-    average.  That is why we took into account the obesity distribution (show in the figure below),
-    to target areas with high obesity rates
-    in the solution.  Particularly, the northwest part ofthe city reports obesity rates 
-    that are considerably higher than the rest of the city.  This neighborhoods should be 
-    taken into consideration for improving their health and quality of life. 
+    Our solution can positively affect the high obesity rates found in Allegheny County. 
+    These are approximately 34%, 4% higher than the national average. That is why we 
+    took into account the obesity distribution (shown in the figure below), to target 
+    areas with high obesity rates, in the solution. Particularly, the northwest part of 
+    the city reports obesity rates that are considerably higher than the rest of the city. 
+    These neighborhoods should be taken into consideration for improving their health and 
+    quality of life.
     
     </div>
 
@@ -701,10 +734,10 @@ if st.session_state.current_page == "💡 Our proposal":
     <div style="text-align: justify">
     
     ## Poverty density
-
-    The implementation of the Bike (+) Plan could 
-    be a solution for those that do not have the possibility to afford a car. In this regard, 
-    we take into account our target to be the low moderate and high-moderate poverty zones.  
+    To increase accessibility to mobility, people need low-cost solutions for their daily 
+    commuting means of transportation. The implementation of the Bike(+) Plan could be i
+    mproved, taking into account those that cannot afford a car. In this regard, we 
+    focused our proposal on the low moderate and high-moderate poverty zones.
     
     </div>
 
@@ -718,16 +751,16 @@ if st.session_state.current_page == "💡 Our proposal":
 
     ## Traffic control systems
     
-    Finally, we consider the implementation of traffic control using artificial 
+    Finally, we considered the implementation of traffic control using artificial 
     intelligence to monitor the status of traffic lights at intersections. These systems 
-    can be based on computer vision for detection of road agents (cars, bicycles, 
-    motorcycles, pedestrians, etc.) and the control algorithm employed can be based on 
+    can be based on computer vision for the detection of road agents (cars, bicycles, 
+    motorcycles, pedestrians, etc.), and the control algorithm employed can be based on 
     reinforcement learning or traditional control theory. Currently, this style of 
     solution is used to reduce intersection delay time at traffic signals, but it could 
     also allow for a safer way to control bicycle and pedestrian traffic. However, it is 
     very important to implement measures to ensure that the systems do not violate 
-    people's privacy and that appropriate tests are performed on the systems to 
-    corroborate their robustness to high-risk situations.
+    people's privacy and that appropriate tests are performed to corroborate their 
+    robustness to high-risk situations.
 
     </div>
 
@@ -737,21 +770,9 @@ if st.session_state.current_page == "💡 Our proposal":
     "Visual representation of a visual detection algorithm for dettecting objects in a street")
 
 
-if st.session_state.current_page == "🚀 Future benefits":
 
-    st.image("https://static01.nyt.com/images/2017/09/07/world/07Bikes1/02Bikes1-superJumbo.jpg",
-    "Cyclists crossing an intersection near the Central Station of Utrecht, the Netherlands. [https://www.nytimes.com/2017/09/06/world/europe/bicycling-utrecht-dutch-love-bikes-worlds-largest-bike-parking-garages.html]")
 
-    st.markdown("""
-    <div style="text-align: justify">
-
-    ## 
     
-    
-
-    </div>
-
-    """,unsafe_allow_html=True)
 
 
 if st.session_state.current_page == "🧠 The Team":
