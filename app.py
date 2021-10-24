@@ -129,18 +129,24 @@ df_clust_bikes = get_bikes_clust_data_df()
 year_list = list(df['CRASH_YEAR'].unique())
 # 
 st.sidebar.subheader("Index")
-page = st.sidebar.radio(
-            "",
-            ('Introduction', 
+
+sections = ('Introduction', 
             '📝📊 Initial data analisys and insights', 
             '🚗🛵🥡 Delivery data insights',
             "🚦 The intersection problem",
             "💡 Our proposal",
-             "📊 Datasets"
-            ))
+            "📈 Economics",
+            "📊 Datasets",
+            "🧠 The Team"
+            )
+a = st.sidebar.empty()
+
+page = a.radio(
+            "",
+            sections)
 
 # App layout #
-st.title('USB-SAE Mobility Team')
+st.title('USB-AI Mobility Team')
 
 if page == "Introduction":
     st.image("https://media.istockphoto.com/photos/panoramic-view-of-pittsburgh-and-the-3-rivers-picture-id1093811582?k=20&m=1093811582&s=612x612&w=0&h=-KpOZ2OHlG7g2-A5fAGTCB0GtNCNVhmgZCqbr8hbzNE=")
@@ -148,21 +154,15 @@ if page == "Introduction":
     st.markdown("""
     <div style="text-align: justify">
 
-    Welcome to the USB-SAE Mobility Team interactive both for the SAE-AI mini challenge.
+    Welcome to the USB-AI Mobility Team interactive booth for the SAE-AI mini-challenge.
 
-    The objective of our entry was to develop a series of recomendations that would improve mobility accessibility, 
-    solving crucial social issues in Allegheny County, Pennsylvania, based mainly on data analisys.
+    The objective of our entry was to develop a series of recommendations that would improve mobility accessibility, solving crucial social issues in Allegheny County, Pennsylvania, based mainly on data analysis.
 
-    With that objective in mind,  and trough the use of data mining tools and extensive research
-    we found that a good solution to imporve the mobility of the county citizens is to incetivice 
-    cycling among the county residents,
-    through the building of cycling infrastructure.
+    With that objective in mind, and through the use of data mining tools and extensive research we found that a good solution to improve the mobility of the county citizens is to incentivize cycling among the county residents, through the development of cycling infrastructure.
 
-    While looking trough the data, We also found other useful insights that might be worth mentioning.
+    While looking through the data, we also found other useful insights that might be worth mentioning.
 
-
-    In this application we show the tough process that went into developing our solution and the 
-    diferent insight that we found in the data.
+    In this application, we show the complete process that went into developing our solution and the different insight that we found in the data.
     </div>
 
     """,unsafe_allow_html=True)
@@ -170,7 +170,6 @@ if page == "Introduction":
 
 
 
-#with st.expander("🚗🛵🥡 Initial data analisys and insights"):
 if  page == '📝📊 Initial data analisys and insights':
     st.header(page)
     # @amin
@@ -372,7 +371,29 @@ if page == "🚦 The intersection problem":
 
     st.subheader("Intersection Crashes clusterized ✨🚦")
 
-    st.image("https://d33wubrfki0l68.cloudfront.net/e1aaf634f896d77c5dd6bb59a4a28b18350cf3b8/8060f/wp-content/uploads/2019/07/clustering.png")
+    with st.expander("✨ What is clusterization"):
+        st.markdown("""
+        <div style="text-align: justify">
+        
+        Clustering is the task of grouping a set of objects in such a 
+        way that objects in the same group (called a cluster) are more similar 
+        (in some sense) to each other than to those in other groups (clusters). 
+
+        ### k-means clustering
+
+        The KMeans algorithm clusters data by trying to separate samples in n groups of 
+        equal variance, minimizing a criterion known as the inertia or within-cluster 
+        sum-of-squares (see below). This algorithm requires the number of clusters to 
+        be specified. It scales well to large number of samples and has been used across 
+        a large range of application areas in many different fields.
+
+
+        </div>
+
+        """,unsafe_allow_html=True)
+        st.image("https://d33wubrfki0l68.cloudfront.net/e1aaf634f896d77c5dd6bb59a4a28b18350cf3b8/8060f/wp-content/uploads/2019/07/clustering.png")
+
+    
 
     st.plotly_chart(px.scatter_mapbox(df_clust_intersections, 
                             lat="DEC_LAT", 
@@ -522,6 +543,8 @@ if page == "💡 Our proposal":
     st.markdown("""
     <div style="text-align: justify">
     
+    ##
+
     We also propose to implement electric bicycles as a means of delivery. The expansion 
     of bicycle infrastructure may lead to the introduction of new types of delivery 
     workers who perform their services using bicycles because, according to data analysis, 
@@ -542,6 +565,65 @@ if page == "💡 Our proposal":
     st.markdown("""
     <div style="text-align: justify">
     
+    ##  Traffic density
+
+    With the objective of reducing traffic density, there should be noted that Mount 
+    Lebanon, Beechview and the White Hall neighborhoods,located in the southern west part 
+    of the city, have high traffic density during rush hour, and are not cover by the new bike 
+    rental locations from the Bike(+) Plan, and so are important to be consider.
+    
+    </div>
+
+    """,unsafe_allow_html=True)
+
+    st.image("images/proposal/Traffic density in Pittsburgh.png", 
+    'Pittsburg traffic density map.')
+
+
+
+
+    st.markdown("""
+    <div style="text-align: justify">
+    
+    ##  Obesity rates
+
+    Our solution can positvely affect  the high 
+    obesity rates found in Allegheny County being approximately  34%, 4% higher than the national 
+    average.  That is why we took into account the obesity distribution (show in the figure below),
+    to target areas with high obesity rates
+    in the solution.  Particularly, the northwest part ofthe city reports obesity rates 
+    that are considerably higher than the rest of the city.  This neighborhoods should be 
+    taken into consideration for improving their health and quality of life. 
+    
+    </div>
+
+    """,unsafe_allow_html=True)
+
+    st.image("images/proposal/Obesity map.png", 
+    'Pittsburg obesity distribution map.')
+
+
+    st.markdown("""
+    <div style="text-align: justify">
+    
+    ## Poverty density
+
+    The implementation of the Bike (+) Plan could 
+    be a solution for those that do not have the possibility to afford a car. In this regard, 
+    we take into account our target to be the low moderate and high-moderate poverty zones.  
+    
+    </div>
+
+    """,unsafe_allow_html=True)
+
+    st.image("images/proposal/Poverty density map.png", 
+    'Pittsburg poverty density map: From this map we can see that entire city could benefit from this service, improving easy-access to mobility overall.')
+
+    st.markdown("""
+    <div style="text-align: justify">
+
+    ## Traffic control systems
+    
     Finally, we consider the implementation of traffic control using artificial 
     intelligence to monitor the status of traffic lights at intersections. These systems 
     can be based on computer vision for detection of road agents (cars, bicycles, 
@@ -557,4 +639,69 @@ if page == "💡 Our proposal":
 
     """,unsafe_allow_html=True)
 
-    st.image("https://www.artificialinventive.com/wp-content/uploads/elementor/thumbs/introducci%C3%B3n-a-visi%C3%B3n-por-computadora-oeoladq1ni8z945r0akzx7ofhs3l6jjmwslhfk9ie0.jpg")
+    st.image("https://www.artificialinventive.com/wp-content/uploads/elementor/thumbs/introducci%C3%B3n-a-visi%C3%B3n-por-computadora-oeoladq1ni8z945r0akzx7ofhs3l6jjmwslhfk9ie0.jpg",
+    "Visual representation of a visual detection algorithm for dettecting objects in a street")
+
+
+
+if page == "🧠 The Team":
+
+    st.write("[Párrafo hablando paja del equipo]")
+    col1, col2, col3 = st.columns(3)
+    
+    col1.write("Mechanichal Engineering - USB")
+    col1.write("[Linkedin Profile](https://www.linkedin.com/in/jeppires/?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAACyfAuYBfdUUHjCot76aaeadm6q07bf6PjM)")
+    col1.write("[Github Profile](https://github.com/jesusepp)")
+
+    col1.write("Computer Engineering - USB")
+    col1.write("[Linkedin Profile](https://www.linkedin.com/in/amin-lorenzo-arriaga-utrera-8379b0177/)")
+    col1.write("[Github Profile](https://github.com/eduardo98m)")
+
+    col2.write("Production Engineering - USB")
+    col2.write("[Linkedin Profile](https://www.linkedin.com/in/oriana-petitjean-a19a721b4/?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAADH9wjUBYlhB96eYOzTEAbXyOI0x0Hdb-WY)")
+    col2.write("[Github Profile](https://github.com/eduardo98m)")
+
+    col2.write("Mechanichal Engineering - USB")
+    col2.write("[Linkedin Profile](https://www.linkedin.com/in/carlosdanielcorrea/?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAACpKGlIBIhYEqBtJmS78bEIBxPM4PU-aEzw)")
+    col2.write("[Github Profile](https://github.com/eduardo98m)")
+
+
+    col3.write("Computer Engineering - USB")
+    col3.write("[Linkedin Profile](https://www.linkedin.com/in/jrbarreram/?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAACvtuqIBvuk9GUtXxIB2-Vv7yyuIWQqekb4)")
+    col3.write("[Github Profile](https://github.com/JRBarreraM)")
+
+    col3.write("Mechanichal Engineering - USB")
+    col3.write("[Linkedin Profile](https://www.linkedin.com/in/eduardo-lópez-a934ba15b/)")
+    col3.write("[Github Profile](https://github.com/eduardo98m)")
+
+
+    col2.write("Research Engineer- Ford")
+    col2.write("[Linkedin Profile](https://www.linkedin.com/in/alemayehu-solomon-admasu/)")
+    col2.write("[Github Profile](https://github.com/eduardo98m)")
+
+"""
+col1, col2, col3 = st.columns([1,6,1])
+
+with col1:
+    
+    if page !=  sections[0]:
+        prev = st.button('Previous')
+    else:
+        prev = False
+    if prev:
+        page =sections[sections.index(page) - 1]
+        #prev = False
+
+with col2:
+    #next = False
+    if page !=  sections[-1]:
+        next = st.button('Next')
+    else:
+        next = False
+    if next:
+        page = a.radio("", sections, sections.index(page) + 1)
+        #page = sections[sections.index(page) + 1]
+        print(page)
+        #next = False
+"""
+
