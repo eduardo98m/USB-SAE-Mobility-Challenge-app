@@ -2,6 +2,8 @@ import streamlit as st
 import plotly.express as px
 import matplotlib.pyplot as plt
 import pandas as pd
+from streamlit.legacy_caching.hashing import _key
+#import SessionState
 
 
 from get_dataframes import get_crash_data_df, get_gridwise_data_df, get_intersections_clust_data_df, get_bikes_clust_data_df
@@ -114,6 +116,8 @@ st.set_page_config(
 
 px.set_mapbox_access_token(st.secrets["map_box_key"])
 
+
+
 # Reading the datasets files
 
 df = get_crash_data_df()
@@ -129,25 +133,36 @@ year_list = list(df['CRASH_YEAR'].unique())
 # 
 st.sidebar.subheader("Index")
 
-sections = ('Introduction', 
-            '📝📊 Initial data analisys and insights', 
-            '🚗🛵🥡 Delivery data insights',
-            "🚦 The intersection problem",
-            "💡 Our proposal",
-            "📈 Economics",
-            "📊 Datasets",
-            "🧠 The Team"
-            )
-a = st.sidebar.empty()
+pages = ['Introduction', 
+                '📝📊 Initial data analisys and insights', 
+                '🚗🛵🥡 Delivery data insights',
+                "🚦 The intersection problem",
+                "💡 Our proposal",
+                "🚀 Future benefits",
+                "📈 Economics",
+                "📊 Datasets",
+                "🧠 The Team",
+                "📚 References"
+]
+#a = st.sidebar.empty()
 
-page = a.radio(
-            "",
-            sections)
+if 'current_page' not in st.session_state:
+    st.session_state.current_page = 'Introduction'
+
+if 'index' not in st.session_state:
+    st.session_state.index = 0
+
+st.session_state.current_page = st.sidebar.radio(
+                                    "",
+                                    pages)
+                                    #st.session_state.index)
+
+#st.session_state.index = pages.index(st.session_state.current_page)
 
 # App layout #
 st.title('USB-AI Mobility Team')
 
-if page == "Introduction":
+if st.session_state.current_page == "Introduction":
     st.image("https://media.istockphoto.com/photos/panoramic-view-of-pittsburgh-and-the-3-rivers-picture-id1093811582?k=20&m=1093811582&s=612x612&w=0&h=-KpOZ2OHlG7g2-A5fAGTCB0GtNCNVhmgZCqbr8hbzNE=")
 
     st.markdown("""
@@ -169,8 +184,8 @@ if page == "Introduction":
 
 
 
-if  page == '📝📊 Initial data analisys and insights':
-    st.header(page)
+if  st.session_state.current_page == '📝📊 Initial data analisys and insights':
+    st.header(st.session_state.current_page)
     # @amin
     # La idea de esta parte es colcoar todas las gráficas de los insgishts que no tengan 
     # que ver mucho con las bicicletas o las intersecciones
@@ -337,8 +352,8 @@ if  page == '📝📊 Initial data analisys and insights':
 
 
 
-if page == "🚗🛵🥡 Delivery data insights":
-    st.header(page)
+if st.session_state.current_page == "🚗🛵🥡 Delivery data insights":
+    st.header(st.session_state.current_page)
    
     #st.plotly_chart(px.pie(df, values='tip', names='day'), use_container_width=True)
     st.write("""
@@ -366,8 +381,8 @@ if page == "🚗🛵🥡 Delivery data insights":
 
 
 
-if page == "🚦 The intersection problem":
-    st.header(page)
+if st.session_state.current_page == "🚦 The intersection problem":
+    st.header(st.session_state.current_page)
     # Aqui faltarian mapas de accidentes cerca de intersecciones
         
     #@Amin ponme esta gráfica bonita (Si se pudiesen colocar los porcentajes estaría peppa)
@@ -385,6 +400,17 @@ if page == "🚦 The intersection problem":
     """,unsafe_allow_html=True)
 
     st.subheader("Intersection Crashes clusterized ✨🚦")
+    st.markdown("""
+        <div style="text-align: justify">
+        
+        A method that we use to visualize the zones of the county where there were more 
+        accidents near instersections, was to clusterize the data using the k-means 
+        algorithm. In the map below it is possible to see that the city center is the area 
+        where are more accidents occur near road intersections.
+
+        </div>
+
+        """,unsafe_allow_html=True)
 
     with st.expander("✨ What is clusterization"):
         st.markdown("""
@@ -392,7 +418,7 @@ if page == "🚦 The intersection problem":
         
         Clustering is the task of grouping a set of objects in such a 
         way that objects in the same group (called a cluster) are more similar 
-        (in some sense) to each other than to those in other groups (clusters). 
+        (in some sense) to each other than to those in other groups (clusters). (Wikipedia)
 
         ### k-means clustering
 
@@ -400,7 +426,7 @@ if page == "🚦 The intersection problem":
         equal variance, minimizing a criterion known as the inertia or within-cluster 
         sum-of-squares (see below). This algorithm requires the number of clusters to 
         be specified. It scales well to large number of samples and has been used across 
-        a large range of application areas in many different fields.
+        a large range of application areas in many different fields. (Sklearn)
 
 
         </div>
@@ -408,7 +434,7 @@ if page == "🚦 The intersection problem":
         """,unsafe_allow_html=True)
         st.image("https://d33wubrfki0l68.cloudfront.net/e1aaf634f896d77c5dd6bb59a4a28b18350cf3b8/8060f/wp-content/uploads/2019/07/clustering.png")
 
-    
+
 
     st.plotly_chart(px.scatter_mapbox(df_clust_intersections, 
                             lat="DEC_LAT", 
@@ -417,10 +443,11 @@ if page == "🚦 The intersection problem":
                             size_max=3, zoom=10),use_container_width=True)
 
 
-    st.header("🚲💥 Bike crashes")
+    st.header("🚲💥 Bike related crashes")
     st.write("""
-    The map below shows the number of bike accidents by year, there it is possible to 
-    observe that a majority of the crashes occur near intersections.
+    We also wanted to analize bike related accidents and the first thing we did was to 
+    them plot in a map.In the map it is possible to  observe that a majority of the 
+    accidents occur near intersections.
     """)
     bk_crash_options = year_list + ["2004-2020"]
     bike_crash_year = st.selectbox("Year",
@@ -441,12 +468,14 @@ if page == "🚦 The intersection problem":
                     size='BICYCLE_COUNT',
                     size_max=15, zoom=10),use_container_width=True)
 
-    #@Amin ponme esta gráfica bonita  (Si se pudiesen colocar los porcentajes estaría peppa)
+    
+    st.markdown("""
+    This is in fact confirmed by the following plot, aroud **70%** of 
+    all bike related crashes ocurr near intersections.
+    """)  
     plot_data = pd.DataFrame(df['INTERSECTION'].loc[df['BICYCLE']==True].value_counts())
     st.plotly_chart(px.bar(plot_data), use_container_width=True)
-    st.write("""
-    [Párrafo Explicando la data]
-    """)            
+              
     st.subheader("Bike Crashes clusterized ✨🚲")
     st.plotly_chart(px.scatter_mapbox(df_clust_bikes, 
                     lat="DEC_LAT", lon="DEC_LONG",  
@@ -459,7 +488,7 @@ if page == "🚦 The intersection problem":
 
     st.markdown("""
     ## Protected Intersections
-    A proven meassure to reduce these kind of accidents are protected intersections,
+    A proven meassure to prevent and reduce these kind of accidents are protected intersections,
     These are a special type of intersection where the cyclist and pedestrians are 
     separated from cars by a buffer zone, and drivers gain wider visibility and thus 
     increase their reaction time.
@@ -470,7 +499,7 @@ if page == "🚦 The intersection problem":
 
 
 
-if page == "📈 Economics":
+if st.session_state.current_page == "📈 Economics":
 
     st.markdown("""
     We intuitively assume that the costs associated with a bicycle are less than a vehicle, but how much less?
@@ -492,6 +521,7 @@ if page == "📈 Economics":
     way cheaper alternatives to commuting by car.
     """)
 
+
     st.markdown("""
     The annual cost of owning a vehicle starts at 6.000$ for a common sedan, compared to the 300$ that 
     represents owning a commuting bicycle, based on the average commuting distance of 16 miles on one way. 
@@ -508,6 +538,7 @@ if page == "📈 Economics":
     very attractive alternative.
     """)
 
+
     st.markdown("""
     But it’s not only the people who are getting an economical benefit out of bicycle riding, 
     around the world many cities have shown that bicycle usage as regular commuting means of 
@@ -522,11 +553,13 @@ if page == "📈 Economics":
     and bicycles](https://doi.org/10.1016/j.ecolecon.2015.03.006), the tourism value of being a bicycle-related 
     country was 7.2 million Euros per year by 2008, representing 2% of the overall tourism of the country.
     """)
+    
+    st.write("[Calculations](https://docs.google.com/spreadsheets/d/1Z71tazN491rzIdnNvWWqFI-zk8twvNgIUo6BUs9BqMc/edit?usp=sharing)")
 
 
 
-if page == "📊 Datasets":
-    st.header(page)
+if st.session_state.current_page == "📊 Datasets":
+    st.header(st.session_state.current_page)
     st.write("""
     The data used for this study is the Allegheny County Crash Data, it is a dataset 
     containing information about the different car crashes and accidents that occurred 
@@ -538,11 +571,8 @@ if page == "📊 Datasets":
 
 
 
-
-
-
-if page == "💡 Our proposal":
-    st.header(page)
+if st.session_state.current_page == "💡 Our proposal":
+    st.header(st.session_state.current_page)
     st.markdown("""
     <div style="text-align: justify">
     
@@ -694,8 +724,24 @@ if page == "💡 Our proposal":
     "Visual representation of a visual detection algorithm for dettecting objects in a street")
 
 
+if st.session_state.current_page == "🚀 Future benefits":
 
-if page == "🧠 The Team":
+    st.image("https://static01.nyt.com/images/2017/09/07/world/07Bikes1/02Bikes1-superJumbo.jpg",
+    "Cyclists crossing an intersection near the Central Station of Utrecht, the Netherlands. [https://www.nytimes.com/2017/09/06/world/europe/bicycling-utrecht-dutch-love-bikes-worlds-largest-bike-parking-garages.html]")
+
+    st.markdown("""
+    <div style="text-align: justify">
+
+    ## 
+    
+    
+
+    </div>
+
+    """,unsafe_allow_html=True)
+
+
+if st.session_state.current_page == "🧠 The Team":
 
     st.write("[Párrafo hablando paja del equipo]")
     col1, col2, col3 = st.columns(3)
@@ -730,29 +776,31 @@ if page == "🧠 The Team":
     col2.write("[Linkedin Profile](https://www.linkedin.com/in/alemayehu-solomon-admasu/)")
     col2.write("[Github Profile](https://github.com/eduardo98m)")
 
+if st.session_state.current_page == "📚 References":
+    st.write("Amin mete las refencias aqui")
+
 """
 col1, col2, col3 = st.columns([1,6,1])
 
 with col1:
     
-    if page !=  sections[0]:
-        prev = st.button('Previous')
-    else:
-        prev = False
-    if prev:
-        page =sections[sections.index(page) - 1]
-        #prev = False
+    if st.session_state.current_page !=  pages[0]:
+        prev =  st.button('Previous', key="previous")
+        if prev:
+            print("atras")
+            st.session_state.index = pages.index(st.session_state.current_page) - 1
+            #st.session_state.current_page = pages[st.session_state.index ]
+            prev = False
+            
 
-with col2:
-    #next = False
-    if page !=  sections[-1]:
-        next = st.button('Next')
-    else:
-        next = False
-    if next:
-        page = a.radio("", sections, sections.index(page) + 1)
-        #page = sections[sections.index(page) + 1]
-        print(page)
-        #next = False
+with col3:
+    
+    if st.session_state.current_page !=  pages[-1]:
+        
+        next =  st.button('Next', key="next")
+        if next:
+            print("adelante")
+            st.session_state.index = pages.index(st.session_state.current_page) + 1
+            #st.session_state.current_page = pages[st.session_state.index ]
+            next = False
 """
-
