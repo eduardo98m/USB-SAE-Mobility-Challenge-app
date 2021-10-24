@@ -522,7 +522,7 @@ if st.session_state.current_page == "🚦 The intersection problem":
     calculating that clasificator feature importance. The random forest employed had a 
     tree depth of 3 and was trained with the full data set.
     </div>
-    """)
+    """,unsafe_allow_html=True)
 
     with st.expander("What is feature importance analisys 🔎 ?"):
         
@@ -607,9 +607,9 @@ if st.session_state.current_page ==  "🚲 The cycling context":
     there is strong evidence pointing at intersections as an unsafe place for bicycle 
     riders. Lack of alternative bicycle roads and the imminent dangers of intersections 
     could be holding back a potential alternative to the gas-powered cars that represent 
-    the 72% of commuting vehicles in Allegheny County[3]. Even the city’s Director of 
+    the 72% of commuting vehicles in Allegheny County[1]. Even the city’s Director of 
     Mobility and Infrastructure, Karina Ricks, states that about 60% of that population is 
-    willing to bike if they feel the lanes are safe enough[7]. Therefore, solving part of 
+    willing to bike if they feel the lanes are safe enough[2]. Therefore, solving part of 
     Allegheny County’s mobility problems using bicycles is not only feasible and 
     beneficial but could be a solution fully embraced by its citizens.
 
@@ -676,13 +676,11 @@ if st.session_state.current_page ==  "🚲 The cycling context":
     transportation can translate to an increase in tourism rates, like Amsterdam and Utrecht 
     in the Netherlands, Antwerp in Belgium, and Copenhagen in Denmark. Particularly, Copenhagen 
     has developed a strong bicycle culture for itself, and bicycle usage reaches 28% of the total 
-    of trips reported in the country by 2019, according to the study 
-    [E-bikes—good  for  public  health?. Advances  In Transportation And Health](https://doi.org/10.1016/B978-0-12-819136-1.00011-5). 
-    With an overall 76% of people feeling safe by using bicycles overall and aiming to reach 90% of 
-    acceptance by 2025, the city has gained popularity as one of the top destinations for bicycle 
-    usage. As reflected in the study [Transport transitions in Copenhagen:  Comparing the cost of cars 
-    and bicycles](https://doi.org/10.1016/j.ecolecon.2015.03.006), the tourism value of being a bicycle-related 
-    country was 7.2 million Euros per year by 2008, representing 2% of the overall tourism of the country.
+    of trips reported in the country by 2019, according to the study [3]. With an overall 76% 
+    of people feeling safe by using bicycles overall and aiming to reach 90% of acceptance by 
+    2025, the city has gained popularity as one of the top destinations for bicycle usage. As 
+    reflected in the study [4], the tourism value of being a bicycle-related country was 7.2 
+    million Euros per year by 2008, representing 2% of the overall tourism of the country.
     
     </div>
     """,unsafe_allow_html=True)
@@ -697,12 +695,12 @@ if st.session_state.current_page ==  "🚲 The cycling context":
     <div style="text-align: justify">
 
     A very important fact that has to be mention is that 80% of people in Copenhagen have 
-    access to bicyclesand adequate roads for their usage [18].  Basically,  almost 
+    access to bicyclesand adequate roads for their usage [5].  Basically,  almost 
     everyone can choose to ride a bike if theywant to use that alternative. This figure is
     reachable thanks to all the political decisions and economicalinvestment that Denmark 
     and the State of Copenhagen have done for the past 20 years. Because of this, new 
     infrastructures like bicycle highways are been developed to reduce the time cost of 
-    commuting with these types of vehicles [18]. An economically accessible solution that 
+    commuting with these types of vehicles [5]. An economically accessible solution that 
     can, with the proper infrastructure,represent a widely geographically available 
     alternative for transportation for people in Allegheny County.
     
@@ -720,7 +718,7 @@ if st.session_state.current_page ==  "🚲 The cycling context":
     Allegheny County happened in intersections.In order for people to start investing in 
     bicycle mobility, it is necessary that safety issues like these are addressed. Some 
     solutions have been proposed to solve this type of problem. A study made by the 
-    Directory of Danish Roads [19] worked around 10 road applicable solutions for bicycle 
+    Directory of Danish Roads [6] worked around 10 road applicable solutions for bicycle 
     mobility.  One ofthose solutions suggests that only by separating the traffic control 
     for bikes and for cars can reduce upto 75% the number of accidents in these situations
     .  Also, this scheme improve the sense of security of the public.
@@ -732,7 +730,7 @@ if st.session_state.current_page ==  "🚲 The cycling context":
     st.markdown("""
     <div style="text-align: justify">
 
-    Another solution that is proposed by the Directory of Danish Roads [19] is the 
+    Another solution that is proposed by the Directory of Danish Roads [6] is the 
     development of a regularterminated cycle lane next to a separate right-turn lane for 
     vehicles.  These types of structures give the cyclers a greater sense of security as 
     they have their own space before entering the intersection. Also,forcing the car 
@@ -740,9 +738,9 @@ if st.session_state.current_page ==  "🚲 The cycling context":
     about 50% if previously the lane allowed for right-turn and straight-away passage. But 
     still, there arefar more impactful solutions that can improve safety for cyclers 
     in intersections. In San Francisco, aprotected intersection design resulted in 98% of 
-    drivers yielding to people on bikes, and 100% yield topeople walking [20], and a study 
+    drivers yielding to people on bikes, and 100% yield topeople walking [7], and a study 
     in New York found that protected intersections had fewer vehicle-bikeconflicts than 
-    even a dedicated turn lane with a dedicated bike signal phase [20]. The infrastructure 
+    even a dedicated turn lane with a dedicated bike signal phase [7]. The infrastructure 
     has to have the bicycle user in mind during its design. Roads are meant for cars, new
     solutions have to beapplied for better bicycle traffic.
     
@@ -758,9 +756,9 @@ if st.session_state.current_page ==  "🚲 The cycling context":
     and the role themobility industry plays in it. Bicycles usage is an evident 
     alternative that allows for easy access mobilityfor little to no emissions in the 
     process.  To change from a car to a bicycle as a commuting means oftransportation 
-    can represent a reduction of 4.6 metric tons of carbon dioxide per year per person[21] 
+    can represent a reduction of 4.6 metric tons of carbon dioxide per year per person[8] 
     that are emitted to the atmosphere, greatly reducing the carbon footprint. The European 
-    Union[22] statedthat, if car usage was reduced from 44% to 30%, there 
+    Union[8] statedthat, if car usage was reduced from 44% to 30%, there 
     would be 30% fewer traffic jams, a reduction of42% of the barrier effect of major 
     highways, 9% of people would not suffer more from noise, and otherconclusions, 
     based on a study on the city of Graz, Austria. 
@@ -774,15 +772,15 @@ if st.session_state.current_page ==  "🚲 The cycling context":
     <div style="text-align: justify">
     
     But the environment is not the only one getting healthier from cycling, the World 
-    Health Organization[17] recommends that healthy adults engage in, at least, 150 minutes 
+    Health Organization[3] recommends that healthy adults engage in, at least, 150 minutes 
     of moderate physical activity, or 75minutes of vigorous physical activity per week. 
-    The European Union[22] stated also that men who cycleat least an hour a week going to 
+    The European Union[8] stated also that men who cycleat least an hour a week going to 
     work had up to 50% less probability of suffering from coronary heartdisease. Also, a 
-    study from [17] shows that not only man-powered bikes are good for your health, 
+    study from [3] shows that not only man-powered bikes are good for your health, 
     e-bikeusage  during  commuting,  by  inactive  individuals,  resulted  in improvements 
     in  cardiovascular  fitnessand overall helping inactive people to 
     become physically active.  Health benefits arise even from natureexposure, resulting 
-    in cognitive benefits including restoration of mental fatigue[17].
+    in cognitive benefits including restoration of mental fatigue[3].
     
     </div>
     """,unsafe_allow_html=True)
@@ -793,7 +791,7 @@ if st.session_state.current_page ==  "🚲 The cycling context":
     <div style="text-align: justify">
     
     Being the city of Pittsburgh seat of the Allegheny County,  it’s interesting to study 
-    the Bike(+) MasterPlan[23], which was published in June 2020 and it is currently being 
+    the Bike(+) MasterPlan[9], which was published in June 2020 and it is currently being 
     implemented, one very important current project that has been developed around 
     alternatives means of transportation around the city. 
     
@@ -808,7 +806,7 @@ if st.session_state.current_page ==  "🚲 The cycling context":
     used to also include other personal mobility devices such as electric pedal-assist 
     bicycles, kick scooters or e-scooters, and another similar lightweight 
     (less than 150 pounds), low-speed (less than 20 MPH) vehicles without internal
-    combustion engines[23].
+    combustion engines[9].
     
     </div>
     """,unsafe_allow_html=True)
@@ -818,7 +816,7 @@ if st.session_state.current_page ==  "🚲 The cycling context":
 
     Healthy Ride is a public bicycle sharing system that serves parts of Pittsburgh. 
     It offers three differentpayment options: 2$ / 30 min, 12$ / month and 20$ / month. 
-    It has over 500 bikes at 113 Healthy Ridestations and 66,000 active users[23]. 
+    It has over 500 bikes at 113 Healthy Ridestations and 66,000 active users[9]. 
     
     </div>
     """,unsafe_allow_html=True)
@@ -1022,7 +1020,7 @@ if st.session_state.current_page == "💡 Our proposal":
 
 if st.session_state.current_page == "🧠 The Team":
 
-    st.write("[Párrafo hablando paja del equipo]")
+    st.write("[Párrafo hablando del equipo]")
     col1, col2, col3 = st.columns(3)
     
     col1.write("Mechanichal Engineering - USB")
@@ -1056,5 +1054,23 @@ if st.session_state.current_page == "🧠 The Team":
     
 
 if st.session_state.current_page == "📚 References":
-    st.write("Amin mete las refencias aqui")
+    st.markdown("""
+  1. Best Place. (n.d.). Pittsburgh, Pennsylvania commuting. Retrieved October 13, 2021, from <https://www.bestplaces.net/transportation/city/pennsylvania/pittsburgh>.
+  
+  2. Shumway, J. (2021, April 20). City of Pittsburgh to add hundreds of miles of new bike lanes to existing network. CBS Pittsburgh. Retrieved October 13, 2021, from <https://pittsburgh.cbslocal.com/2021/04/20/city-of-pittsburgh-bike-lanes/>.
+  
+  3. Sundfør, H., Fyhri, A., & Bjørnarå, H. (2020). E-bikes—good for public health?. Advances In Transportation And Health, 251-266. doi: 10.1016/b978-0-12-819136-1.00011-5
+  
+  4. Københavns Kommune. (2021). Status på København 2020. Retrieved October 13, 2021, <from https://www.kk.dk/sites/default/files/status_paa_koebenhavn_2020.pdf>
+  
+  5. Danish Road Directorate. (2020, June). Road Technical Solutions for Cyclists. Retrieved October 13, 2021, from <https://cyclingsolutions.info/wp-content/uploads//2021/01/RoadTechnical-Solutions.pdf>
+  
+  6. Ink, S. (2020, October 16). Protected intersections. National Association of City Transportation Officials. Retrieved from <https://nacto.org/publication/dont-give-up-at-the-intersection/protected-intersections/>.
+  
+  7. The environmental impacts of riding an Ebike. Aventon Bikes. (2021, February 19). Retrieved October 13, 2021, from <https://www.aventon.com/blogs/aventon_bikes/the-environmental-impacts-of-riding-an-ebike>.
+  
+  8. (2016, October 19). Promoting cycling: Changes to expect. Mobility and transport - European Commission. Retrieved October 13, 2021, from <https://ec.europa.eu/transport/road_safety/specialist/knowledge/pedestrians/promote_cycling_and_bicycle_helmets_or_not/promoting_cycling_changes_to_expect_en>.
+  
+  9. City of Pittsburgh. (2020). Bike(+) Master Plan. Retrieved October 13, 2021 from <https://apps.pittsburghpa.gov/redtail/images/9994_Pittsburgh_Bike+_Plan_06_15_2020.pdf>.
+    """,unsafe_allow_html=True)
 
