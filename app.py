@@ -522,7 +522,7 @@ if st.session_state.current_page == "🚦 The intersection problem":
     calculating that clasificator feature importance. The random forest employed had a 
     tree depth of 3 and was trained with the full data set.
     </div>
-    """)
+    """,unsafe_allow_html=True)
 
     with st.expander("What is feature importance analisys 🔎 ?"):
         
@@ -1020,7 +1020,7 @@ if st.session_state.current_page == "💡 Our proposal":
 
 if st.session_state.current_page == "🧠 The Team":
 
-    st.write("[Párrafo hablando paja del equipo]")
+    st.write("[Párrafo hablando del equipo]")
     col1, col2, col3 = st.columns(3)
     
     col1.write("Mechanichal Engineering - USB")
