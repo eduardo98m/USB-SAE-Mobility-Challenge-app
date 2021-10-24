@@ -199,14 +199,13 @@ if  st.session_state.current_page == '📝📊 Initial data analisys and insight
     <div style="text-align: justify">
 
     We begin by analyzing the data looking for temporal patterns that show an increase or 
-    decrease of accidents at certain times. Therefore, we grouped the data by year, month 
+    decrease of accidents at certain times. Therefore, we grouped the data by year, month, 
     and day of the week. For the first case, a sharp decrease in accidents can be observed 
     between the years 2019 and 2020, which can be easily attributed to the CoVID-19 
     pandemic and the subsequent lockdown measures taken by the state government. 
     These measures drastically reduced the mobility of citizens and subsequently the 
     likelihood of accidents on the road. Fewer cars on the roads, fewer accidents are 
     likely to occur.
-
     </div>
 
     """,unsafe_allow_html=True)
@@ -280,10 +279,10 @@ if  st.session_state.current_page == '📝📊 Initial data analisys and insight
     <div style="text-align: justify">
 
     Then, we decided to study how much weather conditions affect the proportion of disasters, 
-    and indeed if the road is wet the proportion is high, corroborating its increase at the
-    end of the year due to winter. The reason why the dry road has the highest number of 
+    and indeed if the road is wet the accident proportion is higher, corroborating that the increase of crahses at the
+    end of the year is due to winter conditions. The reason why the dry road has the highest number of 
     accidents is because it is the common condition of the road, not because 
-    being dry promotes the occurrence of disasters.
+    the road being dry augments the likelyhood of disasters.
 
     </div>
 
@@ -303,8 +302,8 @@ if  st.session_state.current_page == '📝📊 Initial data analisys and insight
     st.markdown("""
     <div style="text-align: justify">
 
-    Another important factor that we took into consideration are the illumination 
-    conditions, which is also related to the weather since in winter the nights last 
+    Another important factor that we took into consideration are road the illumination 
+    conditions, which are also related to the weather since during winter the nights last 
     longer. It can be noted that a significant proportion of accidents occur in areas 
     without streetlighs, thus installing streetlights in those areas could be a 
     significant step to solving this problem.
@@ -333,10 +332,11 @@ if  st.session_state.current_page == '📝📊 Initial data analisys and insight
     factors: that most roads have a 25 mph speed limit, but also that such a limit may not 
     be appropriate for some of the roads where it is imposed, i.e., reducing the speed 
     limit to 20 mph by introducing some traffic calming measures may result in a reduction 
-    of accidents on those roads.
+    of accidents on those roads. 
     </div>
 
     """,unsafe_allow_html=True)
+    # Aqui vendrian bien una referencia
 
     # Accidents vs Speed Limit
     graph = get_graph(
@@ -382,22 +382,22 @@ if st.session_state.current_page == "🚗🛵🥡 Delivery data insights":
 
 
 if st.session_state.current_page == "🚦 The intersection problem":
+
     st.header(st.session_state.current_page)
-    # Aqui faltarian mapas de accidentes cerca de intersecciones
-        
-    #@Amin ponme esta gráfica bonita (Si se pudiesen colocar los porcentajes estaría peppa)
-    plot_data = pd.DataFrame(df['INTERSECTION'].value_counts())
-    st.plotly_chart(px.bar(plot_data), use_container_width=True)
+
     st.markdown("""
     <div style="text-align: justify">
     One of the most important features we found in the data is that around 40% of all 
     accidents occurred near intersections. This means that intersections are a
     focal point that increases the proportion of traffic accidents. 
-    The following map shows the distribution of crashes at different
-    intersections in the County.
+    
     </div>
 
     """,unsafe_allow_html=True)
+
+    plot_data = pd.DataFrame(df['INTERSECTION'].value_counts())
+    st.plotly_chart(px.bar(plot_data), use_container_width=True)
+    
 
     st.subheader("Intersection Crashes clusterized ✨🚦")
     st.markdown("""
@@ -406,7 +406,7 @@ if st.session_state.current_page == "🚦 The intersection problem":
         A method that we use to visualize the zones of the county where there were more 
         accidents near instersections, was to clusterize the data using the k-means 
         algorithm. In the map below it is possible to see that the city center is the area 
-        where are more accidents occur near road intersections.
+        where are more accidents occur near street intersections.
 
         </div>
 
@@ -446,7 +446,7 @@ if st.session_state.current_page == "🚦 The intersection problem":
     st.header("🚲💥 Bike related crashes")
     st.write("""
     We also wanted to analize bike related accidents and the first thing we did was to 
-    them plot in a map.In the map it is possible to  observe that a majority of the 
+    plot them in a map. In the map below it is possible to  observe that a majority of the 
     accidents occur near intersections.
     """)
     bk_crash_options = year_list + ["2004-2020"]
@@ -470,7 +470,7 @@ if st.session_state.current_page == "🚦 The intersection problem":
 
     
     st.markdown("""
-    This is in fact confirmed by the following plot, aroud **70%** of 
+    This is in fact confirmed by the following bar plot, that tells us that aroud **70%** of 
     all bike related crashes ocurr near intersections.
     """)  
     plot_data = pd.DataFrame(df['INTERSECTION'].loc[df['BICYCLE']==True].value_counts())
@@ -485,6 +485,19 @@ if st.session_state.current_page == "🚦 The intersection problem":
                     #color_continuous_scale= px.colors.sequential.turbo,
                     size='CRASH_YEAR',# text = 'CLUSTER_COUNT',
                     size_max=8, zoom=10),use_container_width=True)
+    
+    st.markdown("""
+    <div style="text-align: justify">
+    
+    In this case the data is clear that regular intersections are a serious problems for 
+    all traffic actor (cyclist and drivers). The safery risk that they pose is so great that
+    a significant proportion of all traffic accidents occur near them and it extends to 
+    almos 70% in the case of bicycle related accidents. Thes in turn inhibits people from 
+    cycling and makes driving a more significant safety risk.
+
+    </div>
+
+    """,unsafe_allow_html=True)
 
     st.markdown("""
     ## Protected Intersections
