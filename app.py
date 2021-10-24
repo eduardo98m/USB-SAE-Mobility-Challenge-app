@@ -1,7 +1,6 @@
 import streamlit as st
 import plotly.express as px
 import matplotlib.pyplot as plt
-
 import pandas as pd
 
 
@@ -344,8 +343,24 @@ if page == "🚗🛵🥡 Delivery data insights":
    
     #st.plotly_chart(px.pie(df, values='tip', names='day'), use_container_width=True)
     st.write("""
-    [Párrafo Explicando la data]
+    One of the dataset that we work on was a gridwise dataset with delivery information of: 
+    115346 rideshare, 15512 food delivery and 475 grocery, from July 2019 to June 2020.
+    Amongs other things we want to know the distance of this delivery, because currently
+    all of them use an automovile for transportation.
     """)
+
+    fig = px.histogram(df_gw, x = "distance", labels=dict(probability_density="Count", distance="Distance in miles"))
+    fig.update_xaxes(range=[0, 40])
+    st.plotly_chart(fig, use_container_width=True)
+
+    st.markdown("""
+    <div style="text-align: justify">
+
+    It becomes clear that there is a high frecuency on the short distance side of the figure.
+    Actually 58 percent of the deliveries travels a distance of 5 miles or less.
+    This means that more than half hose trips can be completed by cycling.
+    </div>
+    """,unsafe_allow_html=True)
 
     
 
