@@ -10,6 +10,7 @@ from get_dataframes import get_crash_data_df, get_gridwise_data_df, get_intersec
 
 import plotly.graph_objects as go
 
+import streamlit.components.v1 as components
 
 @st.cache()
 def get_graph(df,
@@ -157,6 +158,17 @@ st.session_state.current_page = st.sidebar.radio(
                                     #st.session_state.index)
 
 #st.session_state.index = pages.index(st.session_state.current_page)
+
+# Esto hace que al cambiar de  página se resetee la vista
+components.html(
+    f"""
+        <p>{st.session_state.current_page }</p>
+        <script>
+            window.parent.document.querySelector('section.main').scrollTo(0, 0);
+        </script>
+    """,
+    height=0
+)
 
 # App layout #
 st.title('USB-AI Mobility Team')
@@ -481,6 +493,16 @@ if st.session_state.current_page == "🚦 The intersection problem":
     st.plotly_chart(px.bar(plot_data), use_container_width=True)
               
     st.subheader("Bike Crashes clusterized ✨🚲")
+
+    st.markdown("""
+    <div style="text-align: justify">
+    
+    As with the intersection accidents, we clusterized the bike crashes around the county 
+    and found that a significant proportion of those accidents occur near the city center. 
+
+    </div>
+
+    """,unsafe_allow_html=True)
     st.plotly_chart(px.scatter_mapbox(df_clust_bikes, 
                     lat="DEC_LAT", lon="DEC_LONG",  
                     color='Accidents per cluster',
@@ -489,9 +511,67 @@ if st.session_state.current_page == "🚦 The intersection problem":
                     #color_continuous_scale= px.colors.sequential.turbo,
                     size='CRASH_YEAR',# text = 'CLUSTER_COUNT',
                     size_max=8, zoom=10),use_container_width=True)
+
+    st.subheader("🔎Feature importance analisys")
+
+    st.markdown("""
+    <div style="text-align: justify">
+    As part of the data analysis, we developed a classification model to determine what 
+    features had more influence on the likelihood of a traffic accident where bikes were 
+    involved. The process consists in training a random forest classifier and then 
+    calculating that clasificator feature importance. The random forest employed had a 
+    tree depth of 3 and was trained with the full data set.
+    </div>
+    """)
+
+    with st.expander("What is feature importance analisys 🔎 ?"):
+        
+        st.markdown("""
+        <div style="text-align: justify">
+        
+        The feature importance of a model is the value of inffluence that each feature of 
+        the data has in the classification of the data. It is necessary to mention that 
+        for all the features the sum of the feature importance is equal to one. 
+
+        </div>
+
+        """,unsafe_allow_html=True)
+
+    st.image("images/Features importance for bike accidents.png")
+    st.markdown("""
+    <div style="text-align: justify">
+
+    The most important features that characterized a bike accident were “propertydamage”, 
+    “injury”, “injury or fatal”, and “vehicle count”. 
+    These factors can be explained by the dynamics of a bike accident, where there is 
+    usually, only one car involved and the cyclist is more vulnerable to the impact than 
+    the car, thus these accidents are more prone to injuries.  
+
+    There is also the possibility that the driver damages the user bike or crashes with 
+    property in the sidewall triggering the property damage feature, this can also be 
+    related to the importance of the “hit fixed object” feature.Other factors that show 
+    relevance in the classification where the “road owner”,  “local road”,  “stateroad” 
+    and “local road only” features, this can be attributed to the location where the 
+    accident took place,as the majority of the cycling-related accidents occur in the 
+    urban areas of the county.
+    
+    The other group of features that characterized a cycling 
+    accidents are the intersections related features, the “non intersection”, 
+    “intersection” and “intersection type” features contribute to around 10% of the feature 
+    importance of the classification, this is also correlated to the fact explained in the 
+    data exploration section that, 70% of all cycling accidents occur near intersections.
+    
+    </div>
+
+    """,unsafe_allow_html=True)
+
+
+    
     
     st.markdown("""
     <div style="text-align: justify">
+
+    # Conclusions
     
     In this case, the data shows that regular intersections are a serious problem for all 
     traffic actors (cyclists and drivers). The safety risk that they pose is so great that 
@@ -523,18 +603,17 @@ if st.session_state.current_page ==  "🚲 The cycling context":
     st.markdown("""
     <div style="text-align: justify">
 
-    According to the discoveries and insight made in the exploratory data analysis phase 
-    , there is strong evidence pointing at intersections as an unsafe place 
-    for bicycle riders. Lack of alternative bicycle roads and the imminent dangers of 
-    intersections could be holding back a potential alternative to thegas-powered cars 
-    that represent the 72% of commuting vehicles in Allegheny County[3].  
-    Even the city’sDirector of Mobility and Infrastructure Karina Ricks states that 
-    about 60% of that population is willing to bike if they feel the lanes are safe 
-    enough[7].  Therefore, solving part of Allegheny County’s mobility problems using 
-    bicycles is not only feasible and beneficial but could be a solution fully embraced 
-    by its citizens.
-    
-    In this section we will explain some of the benefits of cycling.
+    According to the discoveries and insights made in the exploratory data analysis phase, 
+    there is strong evidence pointing at intersections as an unsafe place for bicycle 
+    riders. Lack of alternative bicycle roads and the imminent dangers of intersections 
+    could be holding back a potential alternative to the gas-powered cars that represent 
+    the 72% of commuting vehicles in Allegheny County[3]. Even the city’s Director of 
+    Mobility and Infrastructure, Karina Ricks, states that about 60% of that population is 
+    willing to bike if they feel the lanes are safe enough[7]. Therefore, solving part of 
+    Allegheny County’s mobility problems using bicycles is not only feasible and 
+    beneficial but could be a solution fully embraced by its citizens.
+
+    In this section, we will explain some of the benefits of cycling.
 
     </div>
 
@@ -563,29 +642,35 @@ if st.session_state.current_page ==  "🚲 The cycling context":
     (https://docs.google.com/spreadsheets/d/1Z71tazN491rzIdnNvWWqFI-zk8twvNgIUo6BUs9BqMc/edit?usp=sharing).
     
 
-    Looking at the graph we can see that cycling options for daily comunting are 
-    way cheaper alternatives to commuting by car.
+    Looking at the graph we can see that cycling options for daily commuting are way 
+    cheaper alternatives to commuting by car.
     """)
 
 
     st.markdown("""
-    The annual cost of owning a vehicle starts at 6.000$ for a common sedan, compared to the 300$ that 
-    represents owning a commuting bicycle, based on the average commuting distance of 16 miles on one way. 
-    Looking at the graph, it’s clear that bicycle-related means of transportation, such as owning an e-bike, 
-    a regular bicycle, or even using bicycle-sharing services, are way cheaper alternatives for daily commuting.
-    The cost of owning a vehicle covers its maintenance, insurance, licenses, the overall payment of the vehicle, 
-    and particularly gasoline consumption. Car owners spend more than 1.200$ a year on gas,based on the average 
-    commuting distance of U.S. citizens, a fuel economy of 23 MPG, and a total of 261 working days a year. Particularly, 
-    Pennsylvania reports gasoline prices up to 3.33$ / Gal, and also, this state reported the highest taxes to gasoline 
-    consumption overall in the U.S., up to 0.777$/Gal. Also, the study 
-    [Transport transitions in Copenhagen: Comparing the cost of cars and bicycles](https://doi.org/10.1016/j.ecolecon.2015.03.006) 
-    reach the conclusion that, on average, bicycle corresponded to a 0.08 Euros/km of cost (considering the private sector, 
-    social effects, and other aspects) compared to the 0.50 Euros/km of cost for cars. These conclusions make bicycles a 
-    very attractive alternative.
-    """)
+    <div style="text-align: justify">
+
+    The annual cost of owning a vehicle starts at 6.000$ for a common sedan, compared to 
+    the 300$ that represents owning a commuting bicycle, based on the average commuting 
+    distance of 16 miles on one way. The cost of owning a vehicle covers its maintenance, 
+    insurance, licenses, the overall payment of the vehicle, and particularly gasoline 
+    consumption. Car owners spend more than 1.200$ a year on gas, based on the average 
+    commuting distance of U.S. citizens, a fuel economy of 23 MPG, and a total of 261 
+    working days a year. Particularly, Pennsylvania reports gasoline prices up to 
+    3.33 $/Gal, and also, this state reported the highest taxes to gasoline consumption 
+    overall in the U.S., up to 0.777 $/Gal. Also, the study Transport transitions in 
+    Copenhagen: Comparing the cost of cars and bicycles reach the conclusion that, on 
+    average, bicycles corresponded to a 0.08 Euros/km of cost (considering the private 
+    sector, social effects, and other aspects) compared to the 0.50 Euros/km of cost for 
+    cars. These conclusions make bicycles a very attractive alternative.
+    </div>
+
+    """,unsafe_allow_html=True)
 
 
     st.markdown("""
+    <div style="text-align: justify">
+
     But it’s not only the people who are getting an economical benefit out of bicycle riding, 
     around the world many cities have shown that bicycle usage as regular commuting means of 
     transportation can translate to an increase in tourism rates, like Amsterdam and Utrecht 
@@ -598,11 +683,160 @@ if st.session_state.current_page ==  "🚲 The cycling context":
     usage. As reflected in the study [Transport transitions in Copenhagen:  Comparing the cost of cars 
     and bicycles](https://doi.org/10.1016/j.ecolecon.2015.03.006), the tourism value of being a bicycle-related 
     country was 7.2 million Euros per year by 2008, representing 2% of the overall tourism of the country.
-    """)
     
-    st.write("[Calculations](https://docs.google.com/spreadsheets/d/1Z71tazN491rzIdnNvWWqFI-zk8twvNgIUo6BUs9BqMc/edit?usp=sharing)")
+    </div>
+    """,unsafe_allow_html=True)
+
 
     st.header("🦺✔️ Safety and Accessibility")
+
+
+    st.image("https://d1q0twczwkl2ie.cloudfront.net/wp-content/uploads/2015/01/Rasmus-Hjortshoj-Cykelslangen-FRAME-13.jpg", "Elevated Bicycle Highway in Copenhagen Denmark")
+
+    st.markdown("""
+    <div style="text-align: justify">
+
+    A very important fact that has to be mention is that 80% of people in Copenhagen have 
+    access to bicyclesand adequate roads for their usage [18].  Basically,  almost 
+    everyone can choose to ride a bike if theywant to use that alternative. This figure is
+    reachable thanks to all the political decisions and economicalinvestment that Denmark 
+    and the State of Copenhagen have done for the past 20 years. Because of this, new 
+    infrastructures like bicycle highways are been developed to reduce the time cost of 
+    commuting with these types of vehicles [18]. An economically accessible solution that 
+    can, with the proper infrastructure,represent a widely geographically available 
+    alternative for transportation for people in Allegheny County.
+    
+    </div>
+
+    """,unsafe_allow_html=True)
+
+
+
+    st.markdown("""
+    <div style="text-align: justify">
+
+    Looking at the data analysis results, there is an important effect of intersections 
+    over bicycle accidents,as more than 70% of the total accident involving a bicycle in 
+    Allegheny County happened in intersections.In order for people to start investing in 
+    bicycle mobility, it is necessary that safety issues like these are addressed. Some 
+    solutions have been proposed to solve this type of problem. A study made by the 
+    Directory of Danish Roads [19] worked around 10 road applicable solutions for bicycle 
+    mobility.  One ofthose solutions suggests that only by separating the traffic control 
+    for bikes and for cars can reduce upto 75% the number of accidents in these situations
+    .  Also, this scheme improve the sense of security of the public.
+    
+    </div>
+    """,unsafe_allow_html=True)
+
+
+    st.markdown("""
+    <div style="text-align: justify">
+
+    Another solution that is proposed by the Directory of Danish Roads [19] is the 
+    development of a regularterminated cycle lane next to a separate right-turn lane for 
+    vehicles.  These types of structures give the cyclers a greater sense of security as 
+    they have their own space before entering the intersection. Also,forcing the car 
+    lane for only right-turn decreases the number of accidents between bikes and cars by
+    about 50% if previously the lane allowed for right-turn and straight-away passage. But 
+    still, there arefar more impactful solutions that can improve safety for cyclers 
+    in intersections. In San Francisco, aprotected intersection design resulted in 98% of 
+    drivers yielding to people on bikes, and 100% yield topeople walking [20], and a study 
+    in New York found that protected intersections had fewer vehicle-bikeconflicts than 
+    even a dedicated turn lane with a dedicated bike signal phase [20]. The infrastructure 
+    has to have the bicycle user in mind during its design. Roads are meant for cars, new
+    solutions have to beapplied for better bicycle traffic.
+    
+    </div>
+    """,unsafe_allow_html=True)
+
+    st.header("🍃⚕️  Environment and Health")
+
+    st.markdown("""
+    <div style="text-align: justify">
+
+    A common subject of debate during the last couple of centuries has been climate change 
+    and the role themobility industry plays in it. Bicycles usage is an evident 
+    alternative that allows for easy access mobilityfor little to no emissions in the 
+    process.  To change from a car to a bicycle as a commuting means oftransportation 
+    can represent a reduction of 4.6 metric tons of carbon dioxide per year per person[21] 
+    that are emitted to the atmosphere, greatly reducing the carbon footprint. The European 
+    Union[22] statedthat, if car usage was reduced from 44% to 30%, there 
+    would be 30% fewer traffic jams, a reduction of42% of the barrier effect of major 
+    highways, 9% of people would not suffer more from noise, and otherconclusions, 
+    based on a study on the city of Graz, Austria. 
+    
+    </div>
+
+    """,unsafe_allow_html=True)
+
+
+    st.markdown("""
+    <div style="text-align: justify">
+    
+    But the environment is not the only one getting healthier from cycling, the World 
+    Health Organization[17] recommends that healthy adults engage in, at least, 150 minutes 
+    of moderate physical activity, or 75minutes of vigorous physical activity per week. 
+    The European Union[22] stated also that men who cycleat least an hour a week going to 
+    work had up to 50% less probability of suffering from coronary heartdisease. Also, a 
+    study from [17] shows that not only man-powered bikes are good for your health, 
+    e-bikeusage  during  commuting,  by  inactive  individuals,  resulted  in improvements 
+    in  cardiovascular  fitnessand overall helping inactive people to 
+    become physically active.  Health benefits arise even from natureexposure, resulting 
+    in cognitive benefits including restoration of mental fatigue[17].
+    
+    </div>
+    """,unsafe_allow_html=True)
+
+    st.header("📜🛣️ Current Policies and Infrastructure")
+
+    st.markdown("""
+    <div style="text-align: justify">
+    
+    Being the city of Pittsburgh seat of the Allegheny County,  it’s interesting to study 
+    the Bike(+) MasterPlan[23], which was published in June 2020 and it is currently being 
+    implemented, one very important current project that has been developed around 
+    alternatives means of transportation around the city. 
+    
+    </div>
+    """,unsafe_allow_html=True)
+
+
+    st.markdown("""
+    <div style="text-align: justify">
+    
+    It is important to notice that the program is not only limited to bikes, the term is
+    used to also include other personal mobility devices such as electric pedal-assist 
+    bicycles, kick scooters or e-scooters, and another similar lightweight 
+    (less than 150 pounds), low-speed (less than 20 MPH) vehicles without internal
+    combustion engines[23].
+    
+    </div>
+    """,unsafe_allow_html=True)
+
+    st.markdown("""
+    <div style="text-align: justify">
+
+    Healthy Ride is a public bicycle sharing system that serves parts of Pittsburgh. 
+    It offers three differentpayment options: 2$ / 30 min, 12$ / month and 20$ / month. 
+    It has over 500 bikes at 113 Healthy Ridestations and 66,000 active users[23]. 
+    
+    </div>
+    """,unsafe_allow_html=True)
+
+    col1, col2, col3 = st.columns([1,6,1])
+
+    with col1:
+        st.write("")
+
+    with col2:
+        st.image("images/proposal/Healthy Ride stations.png", "Map of the Healthy Ride Sations in Allegheny county")
+
+    with col3:
+        st.write("")
+    
+
+    
+
 
 
 
@@ -703,8 +937,19 @@ if st.session_state.current_page == "💡 Our proposal":
 
     """,unsafe_allow_html=True)
 
-    st.image("images/proposal/Traffic density in Pittsburgh.png", 
+    col1, col2, col3 = st.columns([1,6,1])
+
+    with col1:
+        st.write("")
+
+    with col2:
+        st.image("images/proposal/Traffic density in Pittsburgh.png", 
     'Pittsburg traffic density map.')
+
+    with col3:
+        st.write("")
+
+    
 
 
 
@@ -786,15 +1031,15 @@ if st.session_state.current_page == "🧠 The Team":
 
     col1.write("Computer Engineering - USB")
     col1.write("[Linkedin Profile](https://www.linkedin.com/in/amin-lorenzo-arriaga-utrera-8379b0177/)")
-    col1.write("[Github Profile](https://github.com/eduardo98m)")
+    col1.write("[Github Profile](https://github.com/ArriagaAmin)")
 
     col2.write("Production Engineering - USB")
     col2.write("[Linkedin Profile](https://www.linkedin.com/in/oriana-petitjean-a19a721b4/?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAADH9wjUBYlhB96eYOzTEAbXyOI0x0Hdb-WY)")
-    col2.write("[Github Profile](https://github.com/eduardo98m)")
+    col2.write(" ")
 
     col2.write("Mechanichal Engineering - USB")
     col2.write("[Linkedin Profile](https://www.linkedin.com/in/carlosdanielcorrea/?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAACpKGlIBIhYEqBtJmS78bEIBxPM4PU-aEzw)")
-    col2.write("[Github Profile](https://github.com/eduardo98m)")
+    col2.write(" ")
 
 
     col3.write("Computer Engineering - USB")
@@ -808,33 +1053,8 @@ if st.session_state.current_page == "🧠 The Team":
 
     col2.write("Research Engineer- Ford")
     col2.write("[Linkedin Profile](https://www.linkedin.com/in/alemayehu-solomon-admasu/)")
-    col2.write("[Github Profile](https://github.com/eduardo98m)")
+    
 
 if st.session_state.current_page == "📚 References":
     st.write("Amin mete las refencias aqui")
 
-"""
-col1, col2, col3 = st.columns([1,6,1])
-
-with col1:
-    
-    if st.session_state.current_page !=  pages[0]:
-        prev =  st.button('Previous', key="previous")
-        if prev:
-            print("atras")
-            st.session_state.index = pages.index(st.session_state.current_page) - 1
-            #st.session_state.current_page = pages[st.session_state.index ]
-            prev = False
-            
-
-with col3:
-    
-    if st.session_state.current_page !=  pages[-1]:
-        
-        next =  st.button('Next', key="next")
-        if next:
-            print("adelante")
-            st.session_state.index = pages.index(st.session_state.current_page) + 1
-            #st.session_state.current_page = pages[st.session_state.index ]
-            next = False
-"""
