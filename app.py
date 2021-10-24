@@ -501,6 +501,10 @@ if st.session_state.current_page == "🚦 The intersection problem":
 
 if st.session_state.current_page == "📈 Economics":
 
+    st.markdown("""
+    We intuitively assume that the costs associated with a bicycle are less than a vehicle, but how much less?
+    """)
+
     plot_data = pd.DataFrame({" ":["Personal Vehicle","Bicycle","E-Bike","Bike Sharing","Rideshare"],
                                "Cost [USD]"  :   [5921, 300,518,240,18456],
                                 })
@@ -509,16 +513,48 @@ if st.session_state.current_page == "📈 Economics":
     st.plotly_chart(px.bar(plot_data, x  ="Cost [USD]", y =" ",  orientation="h",
     title ="Total cost per comunig vehicle per year (logarithmic scale)",log_x=True ), use_container_width=True)
     st.write("""
-    Looking at the graph we can see that cycling options for daily comunting are 
-    way cheaper alternatives to cimmuting by car.
-    """)
-
-    st.write("[Calculations](https://docs.google.com/spreadsheets/d/1Z71tazN491rzIdnNvWWqFI-zk8twvNgIUo6BUs9BqMc/edit?usp=sharing)")
-
+    A thorough explanation of the calculations made to obtain this figure can be found [here]
+    (https://docs.google.com/spreadsheets/d/1Z71tazN491rzIdnNvWWqFI-zk8twvNgIUo6BUs9BqMc/edit?usp=sharing).
     
 
+    Looking at the graph we can see that cycling options for daily comunting are 
+    way cheaper alternatives to commuting by car.
+    """)
 
 
+    st.markdown("""
+    The annual cost of owning a vehicle starts at 6.000$ for a common sedan, compared to the 300$ that 
+    represents owning a commuting bicycle, based on the average commuting distance of 16 miles on one way. 
+    Looking at the graph, it’s clear that bicycle-related means of transportation, such as owning an e-bike, 
+    a regular bicycle, or even using bicycle-sharing services, are way cheaper alternatives for daily commuting.
+    The cost of owning a vehicle covers its maintenance, insurance, licenses, the overall payment of the vehicle, 
+    and particularly gasoline consumption. Car owners spend more than 1.200$ a year on gas,based on the average 
+    commuting distance of U.S. citizens, a fuel economy of 23 MPG, and a total of 261 working days a year. Particularly, 
+    Pennsylvania reports gasoline prices up to 3.33$ / Gal, and also, this state reported the highest taxes to gasoline 
+    consumption overall in the U.S., up to 0.777$/Gal. Also, the study 
+    [Transport transitions in Copenhagen: Comparing the cost of cars and bicycles](https://doi.org/10.1016/j.ecolecon.2015.03.006) 
+    reach the conclusion that, on average, bicycle corresponded to a 0.08 Euros/km of cost (considering the private sector, 
+    social effects, and other aspects) compared to the 0.50 Euros/km of cost for cars. These conclusions make bicycles a 
+    very attractive alternative.
+    """)
+
+
+    st.markdown("""
+    But it’s not only the people who are getting an economical benefit out of bicycle riding, 
+    around the world many cities have shown that bicycle usage as regular commuting means of 
+    transportation can translate to an increase in tourism rates, like Amsterdam and Utrecht 
+    in the Netherlands, Antwerp in Belgium, and Copenhagen in Denmark. Particularly, Copenhagen 
+    has developed a strong bicycle culture for itself, and bicycle usage reaches 28% of the total 
+    of trips reported in the country by 2019, according to the study 
+    [E-bikes—good  for  public  health?. Advances  In Transportation And Health](https://doi.org/10.1016/B978-0-12-819136-1.00011-5). 
+    With an overall 76% of people feeling safe by using bicycles overall and aiming to reach 90% of 
+    acceptance by 2025, the city has gained popularity as one of the top destinations for bicycle 
+    usage. As reflected in the study [Transport transitions in Copenhagen:  Comparing the cost of cars 
+    and bicycles](https://doi.org/10.1016/j.ecolecon.2015.03.006), the tourism value of being a bicycle-related 
+    country was 7.2 million Euros per year by 2008, representing 2% of the overall tourism of the country.
+    """)
+    
+    st.write("[Calculations](https://docs.google.com/spreadsheets/d/1Z71tazN491rzIdnNvWWqFI-zk8twvNgIUo6BUs9BqMc/edit?usp=sharing)")
 
 
 
