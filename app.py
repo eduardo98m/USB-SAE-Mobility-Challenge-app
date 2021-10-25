@@ -176,7 +176,11 @@ components.html(
 st.title('USB-AI Mobility Team')
 
 if st.session_state.current_page == "Introduction":
-    st.image("images/dark_banner.png")
+
+    st.markdown("""<br>""",unsafe_allow_html=True)
+    st.image("images/white_banner.jpg")
+    st.markdown("""<br>""",unsafe_allow_html=True)
+
     col1, col2, col3 = st.columns([1,6,1])
 
     with col1:
@@ -191,7 +195,7 @@ if st.session_state.current_page == "Introduction":
 
     st.markdown("""
     <div style="text-align: justify">
-
+    <br>
     Welcome to the USB-AI Mobility Team interactive booth for the SAE-AI mini-challenge.
 
     The objective of our entry was to develop a series of recommendations that would improve mobility accessibility, solving crucial social issues in Allegheny County, Pennsylvania, based mainly on data analysis.
