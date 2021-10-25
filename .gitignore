@@ -129,7 +129,7 @@ dmypy.json
 .pyre/
 
 # Streamlit 
-.streamlit
+.streamlit/*
 
 # Datasets
 # exclude everything
@@ -137,3 +137,5 @@ datasets/*
 
 # exception to the rule
 !datasets/.gitkeep 
+
+!.streamlit/config.toml 
