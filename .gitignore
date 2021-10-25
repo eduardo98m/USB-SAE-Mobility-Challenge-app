@@ -138,4 +138,4 @@ datasets/*
 # exception to the rule
 !datasets/.gitkeep 
 
-!.streamlit/.config.toml 
+!.streamlit/config.toml 
