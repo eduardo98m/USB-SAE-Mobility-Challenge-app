@@ -1,3 +1,4 @@
+from re import S
 import streamlit as st
 import plotly.express as px
 import matplotlib.pyplot as plt
@@ -135,14 +136,14 @@ year_list = list(df['CRASH_YEAR'].unique())
 st.sidebar.subheader("Index")
 
 pages = ['Introduction', 
-                '📝📊 Initial data analisys and insights', 
-                '🚗🛵🥡 Delivery data insights',
-                "🚦 The intersection problem",
-                "🚲 The cycling context",
-                "💡 Our proposal",
-                "📊 Datasets",
-                "🧠 The Team",
-                "📚 References"
+        "📊 Datasets",
+        '📝📊 Initial data analisys and insights', 
+        '🚗🛵🥡 Delivery data insights',
+        "🚦 The intersection problem",
+        "🚲 The cycling context",
+        "💡 Our proposal",
+        "🧠 The Team",
+        "📚 References"
 ]
 #a = st.sidebar.empty()
 
@@ -171,10 +172,22 @@ components.html(
 )
 
 # App layout #
+
 st.title('USB-AI Mobility Team')
 
 if st.session_state.current_page == "Introduction":
-    st.image("https://media.istockphoto.com/photos/panoramic-view-of-pittsburgh-and-the-3-rivers-picture-id1093811582?k=20&m=1093811582&s=612x612&w=0&h=-KpOZ2OHlG7g2-A5fAGTCB0GtNCNVhmgZCqbr8hbzNE=")
+    st.image("images/dark_banner.png")
+    col1, col2, col3 = st.columns([1,6,1])
+
+    with col1:
+        st.write("")
+
+    with col2:
+        st.image("https://media.istockphoto.com/photos/panoramic-view-of-pittsburgh-and-the-3-rivers-picture-id1093811582?k=20&m=1093811582&s=612x612&w=0&h=-KpOZ2OHlG7g2-A5fAGTCB0GtNCNVhmgZCqbr8hbzNE=")
+
+    with col3:
+        st.write("")
+    
 
     st.markdown("""
     <div style="text-align: justify">
@@ -192,7 +205,14 @@ if st.session_state.current_page == "Introduction":
 
     """,unsafe_allow_html=True)
 
+    st.markdown("""
+    <div style="text-align: justify">
 
+    A more detailed explanation of our entry can be found in our [stakeholder´s report](https://drive.google.com/file/d/1zD86ogsLWmjS-RjmHYBHnJfWyQ6GOYIn/view?usp=sharing)
+
+    </div>
+
+    """,unsafe_allow_html=True)
 
 
 if  st.session_state.current_page == '📝📊 Initial data analisys and insights':
@@ -749,6 +769,17 @@ if st.session_state.current_page ==  "🚲 The cycling context":
 
     st.header("🍃⚕️  Environment and Health")
 
+    col1, col2, col3 = st.columns([1,6,1])
+
+    with col1:
+        st.write("")
+
+    with col2:
+        st.image("https://www.icebike.org/wp-content/uploads/2021/04/benefits-of-cycling.jpg")
+
+    with col3:
+        st.write("")
+
     st.markdown("""
     <div style="text-align: justify">
 
@@ -841,12 +872,32 @@ if st.session_state.current_page ==  "🚲 The cycling context":
 if st.session_state.current_page == "📊 Datasets":
     st.header(st.session_state.current_page)
     st.write("""
-    The data used for this study is the Allegheny County Crash Data, it is a dataset 
-    containing information about the different car crashes and accidents that occurred 
-    in the County between the years 2004 and 2020.  
-    The data set is well structured and contains lots of details abouteach accident. 
-    A data set provided by Gridwise was also employed to find some complementary insights 
-    for our proposal.
+    
+    <div style="text-align: justify">
+    
+    The data used for our study is the Allegheny County Crash Data from The Western 
+    Pennsylvania Regional Data Center, it is a dataset containing information about 
+    the different car crashes and accidents that occurred 
+    in the County between the years 2004 and 2020. The data set is well structured and 
+    contains lots of details about each accident.
+    
+
+    A dataset provided in the challenge by Gridwise was also employed to find some 
+    complementary insights for our proposal. This dataset contianed a sample of 
+    ride-share and delivery trips in Allegheny County between July 2019 and June 2020
+
+    In both data set we found the following data types:				
+    * Categorical
+    * Numerical
+    * Boolean
+    * Geo-spacial
+
+
+    </div>
+    """,unsafe_allow_html=True)
+
+    st.write("""
+    The Allegheny County Crash Data Data set can be found in this [link](https://data.wprdc.org/dataset/allegheny-county-crash-data)
     """)
 
 
@@ -1019,41 +1070,55 @@ if st.session_state.current_page == "💡 Our proposal":
 
 
 if st.session_state.current_page == "🧠 The Team":
+    st.header(st.session_state.current_page)
 
-    st.write("[Párrafo hablando del equipo]")
     col1, col2, col3 = st.columns(3)
     
+    col1.image("images/profile_pics/jesus.png", 
+    'Jesús Pereira')
     col1.write("Mechanichal Engineering - USB")
     col1.write("[Linkedin Profile](https://www.linkedin.com/in/jeppires/?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAACyfAuYBfdUUHjCot76aaeadm6q07bf6PjM)")
     col1.write("[Github Profile](https://github.com/jesusepp)")
 
+    col1.image("images/profile_pics/amin.png", 
+    'Amin Arriaga')
     col1.write("Computer Engineering - USB")
     col1.write("[Linkedin Profile](https://www.linkedin.com/in/amin-lorenzo-arriaga-utrera-8379b0177/)")
     col1.write("[Github Profile](https://github.com/ArriagaAmin)")
 
+    col2.image("images/profile_pics/oriana.png", 
+    'Oriana Petijean')
     col2.write("Production Engineering - USB")
     col2.write("[Linkedin Profile](https://www.linkedin.com/in/oriana-petitjean-a19a721b4/?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAADH9wjUBYlhB96eYOzTEAbXyOI0x0Hdb-WY)")
-    col2.write(" ")
+    col2.markdown("ㅤ")
 
+    col2.image("images/profile_pics/carlos.png", 
+    'Carlos Correa')
     col2.write("Mechanichal Engineering - USB")
     col2.write("[Linkedin Profile](https://www.linkedin.com/in/carlosdanielcorrea/?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAACpKGlIBIhYEqBtJmS78bEIBxPM4PU-aEzw)")
-    col2.write(" ")
+    col2.markdown("ㅤ")
 
-
+    col3.image("images/profile_pics/barrera.png", 
+    'José Barrera')
     col3.write("Computer Engineering - USB")
     col3.write("[Linkedin Profile](https://www.linkedin.com/in/jrbarreram/?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAACvtuqIBvuk9GUtXxIB2-Vv7yyuIWQqekb4)")
     col3.write("[Github Profile](https://github.com/JRBarreraM)")
 
+    col3.image("images/profile_pics/Eduardo.png", 
+    'Eduardo López')
     col3.write("Mechanichal Engineering - USB")
     col3.write("[Linkedin Profile](https://www.linkedin.com/in/eduardo-lópez-a934ba15b/)")
     col3.write("[Github Profile](https://github.com/eduardo98m)")
 
-
+    col2.write("Team Mentor")
+    col2.image("images/profile_pics/ale.png", 
+    'Alemayehu Admasu')
     col2.write("Research Engineer- Ford")
     col2.write("[Linkedin Profile](https://www.linkedin.com/in/alemayehu-solomon-admasu/)")
     
 
 if st.session_state.current_page == "📚 References":
+    st.header(st.session_state.current_page)
     st.markdown("""
   1. Best Place. (n.d.). Pittsburgh, Pennsylvania commuting. Retrieved October 13, 2021, from: <https://www.bestplaces.net/transportation/city/pennsylvania/pittsburgh>.
   
